@@ -1,0 +1,8 @@
+# Default owner for everything in the repo.
+* @HarshalAndhale9657
+
+# Safety-sensitive areas — require owner review.
+/extension/lib/safety/   @HarshalAndhale9657
+/extension/lib/act/      @HarshalAndhale9657
+/SECURITY.md             @HarshalAndhale9657
+/SAFETY_CHANGELOG.md     @HarshalAndhale9657

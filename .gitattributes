@@ -1,0 +1,30 @@
+# Normalize line endings: LF in the repo, checked out native on Windows.
+* text=auto eol=lf
+
+# Explicit text types
+*.ts    text eol=lf
+*.tsx   text eol=lf
+*.js    text eol=lf
+*.mjs   text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.css   text eol=lf
+*.html  text eol=lf
+*.py    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.cff   text eol=lf
+
+# Binary assets — never touch line endings, and mark for diff/linguist
+*.png    binary
+*.jpg    binary
+*.svg    text eol=lf
+*.wasm   binary
+*.onnx   binary
+*.gguf   binary
+*.data   binary
+*.parquet binary
+
+# Keep generated/vendored dirs out of language stats
+docs/**            linguist-documentation
+benchmark/data/**  linguist-generated

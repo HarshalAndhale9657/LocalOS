@@ -1,0 +1,29 @@
+name: Feature request
+description: Suggest an idea for Groundwork
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What are you trying to do that's hard today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Fits the project's principles?
+      description: Groundwork is local-first and safety-conscious (see CLAUDE.md).
+      options:
+        - label: Keeps page content / index / models on-device (or cloud is opt-in + content-blind)
+        - label: Does not require transactional automation on authenticated third-party sites (out of scope for now)
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  extension:
+    name: Extension (typecheck + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: extension
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: extension/package-lock.json
+      - run: npm ci
+      - name: Typecheck
+        run: npm run compile
+      - name: Build
+        run: npm run build
+      # Note: `npm run fetch-model` (embedding weights) is intentionally NOT run in CI —
+      # the build succeeds without the optional model asset.
+
+  benchmark:
+    name: Benchmark (generate + evaluate)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: benchmark
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate v0 dataset
+        run: python build_v0.py --histories 8 --seed 7 --out data/ci
+      - name: Trivial baselines
+        run: python -m eval.run_baseline --data data/ci
+      - name: Reference system
+        run: python -m eval.run_reference --data data/ci

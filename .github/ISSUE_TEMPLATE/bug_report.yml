@@ -1,0 +1,51 @@
+name: Bug report
+description: Report a problem with the Groundwork extension or benchmark
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report! **Do not report security vulnerabilities here** — see
+        [SECURITY.md](../blob/main/SECURITY.md).
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Extension — memory / retrieval
+        - Extension — observe/act (CDP)
+        - Extension — grounded answering / model
+        - Extension — side panel UI
+        - Benchmark / evaluation
+        - Docs
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: OS, Chrome version, Node version, Ollama version + model (if relevant), commit SHA.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console / build output
+      render: shell

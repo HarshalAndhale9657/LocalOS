@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use Groundwork or the Personal-Memory-RGB benchmark, please cite this repository."
+title: "Groundwork: Calibrated Grounding for On-Device Browser Agents"
+abstract: >-
+  Groundwork is a privacy-first, local-first agentic browser assistant (Chrome MV3
+  extension) with fine-tuned small local models unified by a "calibrated grounding"
+  objective: act only on what is on the page, answer only from what was read, and
+  abstain/defer under uncertainty. It includes Personal-Memory-RGB, a benchmark for
+  grounded QA + calibrated refusal over a user's own browsing history.
+type: software
+authors:
+  - given-names: Harshal
+    family-names: Andhale
+    # TODO: verify legal name / add ORCID and affiliation before publication
+repository-code: "https://github.com/HarshalAndhale9657/Groundwork"
+license: MIT
+keywords:
+  - web agents
+  - retrieval-augmented generation
+  - calibrated refusal
+  - selective prediction
+  - on-device LLM
+  - browser extension
+  - prompt injection
+  - fine-tuning
+version: 0.0.0
+date-released: "2026-08-21"
