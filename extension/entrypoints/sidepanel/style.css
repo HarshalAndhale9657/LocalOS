@@ -24,6 +24,17 @@ body { margin: 0; }
 .gw-logo { font-size: 20px; color: #2f8f5b; }
 .gw-title { font-weight: 700; font-size: 15px; }
 .gw-sub { font-size: 11px; opacity: 0.6; }
+.gw-remember {
+  margin-left: auto;
+  padding: 6px 10px;
+  border: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
+  border-radius: 8px;
+  background: transparent;
+  color: CanvasText;
+  font-size: 12px;
+  cursor: pointer;
+}
+.gw-remember:disabled { opacity: 0.5; cursor: default; }
 
 .gw-thread {
   flex: 1;

@@ -1,32 +1,60 @@
 import { useState } from 'react';
 import './style.css';
 
-type Msg = { role: 'user' | 'agent'; text: string; citations?: string[] };
+type Cite = { url: string; title: string; readAt: string; text: string; score: number };
+type Msg = { role: 'user' | 'agent'; text: string; citations?: Cite[] };
 
 /**
- * Groundwork side-panel chat shell (M1.1).
- * This is UI scaffolding only — wiring to the RAG memory + local model
- * lands in M1.4 / M1.5 (see ../../docs/06_M1_BUILD_PLAN.md).
+ * Groundwork side panel (M1.4). Wired to the local RAG memory:
+ *  - "Remember this page" -> capture (Readability) + index into PGlite/pgvector
+ *  - "Ask" -> retrieve grounded chunks from your history
+ * Grounded ANSWER generation (a local model composing a cited reply / refusal)
+ * lands in M1.5; for now we surface the retrieved evidence directly.
  */
 function App() {
   const [messages, setMessages] = useState<Msg[]>([
-    {
-      role: 'agent',
-      text:
-        "Groundwork is set up. I'll answer from your own tabs and reading history and cite my sources — and I'll say \"not found in your history\" rather than guess. (Memory + model wiring: M1.4–M1.5.)",
-    },
+    { role: 'agent', text: "Remember a few pages, then ask about them. I'll answer only from what you've captured — and say \"not found in your history\" when there's no support. (Cited answer generation: M1.5.)" },
   ]);
   const [input, setInput] = useState('');
+  const [busy, setBusy] = useState(false);
 
-  function send() {
+  async function remember() {
+    setBusy(true);
+    try {
+      const r: any = await chrome.runtime.sendMessage({ type: 'CAPTURE_ACTIVE_TAB' });
+      const note = r?.error
+        ? `Couldn't capture this tab: ${r.error}`
+        : r?.indexed
+          ? `Remembered "${r.page?.title || r.page?.url}" (${r.chunks} chunks).`
+          : `Skipped "${r.page?.title || r.page?.url}" (${r.reason || 'not indexed'}).`;
+      setMessages((m) => [...m, { role: 'agent', text: note }]);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function ask() {
     const q = input.trim();
-    if (!q) return;
-    setMessages((m) => [
-      ...m,
-      { role: 'user', text: q },
-      { role: 'agent', text: '(stub) grounded answering is wired in M1.5.' },
-    ]);
+    if (!q || busy) return;
     setInput('');
+    setMessages((m) => [...m, { role: 'user', text: q }]);
+    setBusy(true);
+    try {
+      const r: any = await chrome.runtime.sendMessage({ type: 'MEMORY_RETRIEVE', query: q, opts: { k: 4 } });
+      const chunks: Cite[] = r?.chunks ?? [];
+      if (r?.error) {
+        setMessages((m) => [...m, { role: 'agent', text: `Retrieval error: ${r.error}` }]);
+      } else if (!chunks.length) {
+        setMessages((m) => [...m, { role: 'agent', text: 'Not found in your history.' }]);
+      } else {
+        setMessages((m) => [
+          ...m,
+          { role: 'agent', text: 'Found this in your memory (grounded answer generation is M1.5):', citations: chunks },
+        ]);
+      }
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -37,6 +65,9 @@ function App() {
           <div className="gw-title">Groundwork</div>
           <div className="gw-sub">private · local-first · cited</div>
         </div>
+        <button className="gw-remember" onClick={remember} disabled={busy} title="Capture & index the active tab">
+          + Remember page
+        </button>
       </header>
 
       <main className="gw-thread">
@@ -46,8 +77,8 @@ function App() {
             {m.citations?.length ? (
               <div className="gw-cites">
                 {m.citations.map((c, j) => (
-                  <a key={j} className="gw-cite" href={c} target="_blank">
-                    source {j + 1}
+                  <a key={j} className="gw-cite" href={c.url} target="_blank" title={c.text}>
+                    {j + 1}. {c.title || c.url} · {(c.score * 100).toFixed(0)}%
                   </a>
                 ))}
               </div>
@@ -63,13 +94,14 @@ function App() {
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
-              send();
+              ask();
             }
           }}
-          placeholder="Ask about your tabs or reading history…"
+          placeholder="Ask about your captured pages…"
           rows={2}
+          disabled={busy}
         />
-        <button onClick={send}>Ask</button>
+        <button onClick={ask} disabled={busy}>{busy ? '…' : 'Ask'}</button>
       </footer>
     </div>
   );
