@@ -13,14 +13,15 @@ Graduation / major project **and** an IEEE-level-and-above research paper, unifi
 |---|---|
 | [`docs/`](docs/) | Full planning knowledge base — start at [`docs/README.md`](docs/README.md) |
 | [`extension/`](extension/) | The Chrome MV3 extension (WXT + React) — **M1 scaffold, builds & typechecks** |
-| `benchmark/` | Personal-Memory-RGB construction + evaluator (spec: [`docs/05`](docs/05_BENCHMARK_Personal_Memory_RGB.md)) — *to come* |
+| [`benchmark/`](benchmark/) | Personal-Memory-RGB builder + evaluator (spec: [`docs/05`](docs/05_BENCHMARK_Personal_Memory_RGB.md)) — **v0 runs (stdlib-only)** |
 | `training/` | QLoRA SFT/DPO scripts — *to come (M2+)* |
 
 ## Status (2026-08-21)
 
 - ✅ Planning complete (vision, product, architecture, research plan, related work, benchmark spec, M1 plan).
 - 🔨 **M1.1 done:** extension scaffold — side panel, offscreen ML host, background router, `lib/` skeleton (observe/act/memory/model/safety). Builds + typechecks.
-- ⏭ Next: M1.2 observe (CDP a11y snapshot) → M1.4 memory (PGlite RAG) → M1.5 grounded answering (base model baseline). See [`docs/06`](docs/06_M1_BUILD_PLAN.md).
+- 🔬 **Benchmark v0 done:** `benchmark/` generates synthetic Personal-Memory-RGB data (all 6 classes) + a working refusal-metrics eval harness (validated: 0 broken citations; oracle 1.0 vs trivial baselines). Teacher-LLM enrichment + action-safety split come in M2/M4.
+- ⏭ Next: M1.2 observe (CDP a11y snapshot) → M1.4 memory (PGlite RAG) → M1.5 grounded answering (base-model baseline against Personal-Memory-RGB). See [`docs/06`](docs/06_M1_BUILD_PLAN.md).
 
 ## Develop the extension
 
