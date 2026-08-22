@@ -1,12 +1,12 @@
 # 02 — Technical Architecture & Feasibility
 
-> Companion to [01_PRODUCT_PLAN](01_PRODUCT_PLAN.md). This is the buildable blueprint: how LocalOS *sees*, *acts*, *remembers*, *reasons locally*, and *stays safe* — with the MV3 constraints and mitigations that make it feasible on a single consumer GPU. Feasibility grounded in the deep-research pass; citations in [04_RELATED_WORK](04_RELATED_WORK.md).
+> Companion to [01_PRODUCT_PLAN](01_PRODUCT_PLAN.md). This is the buildable blueprint: how Groundwork *sees*, *acts*, *remembers*, *reasons locally*, and *stays safe* — with the MV3 constraints and mitigations that make it feasible on a single consumer GPU. Feasibility grounded in the deep-research pass; citations in [04_RELATED_WORK](04_RELATED_WORK.md).
 
 ---
 
 ## 1. Architecture at a glance
 
-LocalOS is a **hybrid, local-first** system with five subsystems:
+Groundwork is a **hybrid, local-first** system with five subsystems:
 
 1. **Sense** — observe the page (content script + CDP; Readability + compressed accessibility tree).
 2. **Act** — execute browser actions via trusted CDP input events, gated by risk + confirmation.

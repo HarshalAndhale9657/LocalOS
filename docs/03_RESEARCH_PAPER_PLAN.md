@@ -1,6 +1,6 @@
 # 03 — Research Paper Plan
 
-> The plan to turn LocalOS into an **IEEE-level-and-above** publication that strengthens an ML/NLP/LLM research career. Companion to [00_MASTER](00_MASTER_Vision_and_Knowledge.md) (thesis) and [04_RELATED_WORK](04_RELATED_WORK.md) (bibliography). Audience of this doc: you, writing the paper.
+> The plan to turn Groundwork into an **IEEE-level-and-above** publication that strengthens an ML/NLP/LLM research career. Companion to [00_MASTER](00_MASTER_Vision_and_Knowledge.md) (thesis) and [04_RELATED_WORK](04_RELATED_WORK.md) (bibliography). Audience of this doc: you, writing the paper.
 
 ---
 

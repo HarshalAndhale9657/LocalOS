@@ -1,6 +1,6 @@
 # 00 — Master Vision & Knowledge Base
 
-> **Codename:** `LocalOS` (working name — see [§9 Naming](#9-naming-decision)).
+> **Product:** Groundwork (chosen name — see [§9 Naming](#9-naming-decision)). Repo dir: `d:\LocalOS`.
 > **Type:** Final-year graduation / major project + IEEE-level research paper.
 > **One line:** A privacy-first, *local-first* **agentic browser assistant** (Chrome MV3 extension) that can **see and control** your browser to do private research, on-demand data extraction, and grounded recall over your own browsing — powered by **fine-tuned small local models** that know **when they don't know**.
 > **Status:** Planning. This document is the single source of truth for *what* we are building and *why*. Product execution lives in [01_PRODUCT_PLAN](01_PRODUCT_PLAN.md); the paper lives in [03_RESEARCH_PAPER_PLAN](03_RESEARCH_PAPER_PLAN.md).
@@ -56,9 +56,9 @@ The two files in the repo root (`secondbrain.md`, `Second_Brain_Project_Document
 
 - A **passive** local RAG-over-browsing-history Chrome extension. It indexes pages you read (Readability.js → chunk → embed with `Xenova/all-MiniLM-L6-v2` → PGlite+pgvector in-browser), then answers questions grounded in what you read, with a small model fine-tuned via **SFT + DPO** for grounded answering + calibrated refusal. Stack: WXT, Transformers.js, PGlite/pgvector, Groq/Gemini/Ollama, SimHash dedup, hybrid retrieval (vector + time-decay + MMR).
 
-**LocalOS is a strict superset in ambition.** Second Brain is *memory*. LocalOS is *memory + agency*:
+**Groundwork is a strict superset in ambition.** Second Brain is *memory*. Groundwork is *memory + agency*:
 
-| | Second Brain (inspiration) | **LocalOS (our project)** |
+| | Second Brain (inspiration) | **Groundwork (our project)** |
 |---|---|---|
 | Core behavior | Passive capture, answer questions | **Active: sees + controls the browser to do tasks**, plus memory |
 | Fine-tuning | 1 track (grounded QA + refusal) | **2 tracks (action grounding + grounded QA/refusal), unified** |
@@ -89,15 +89,15 @@ Findings from the deep research pass (2023–2026), condensed:
 
 **The small-model bet is validated by research** (see [04](04_RELATED_WORK.md)): WebLINX (small fine-tuned models beat zero-shot GPT-4V), WebRL (8B → 2.4× GPT-4-Turbo on WebArena-Lite), Agent-Q (DPO on mined failures), UI-TARS (7B, SFT+DPO), Trust-Align (SFT+DPO grounded refusal). QLoRA on 3B–8B fits a single 16–24 GB GPU.
 
-### The white space LocalOS owns
+### The white space Groundwork owns
 
-> **No shipping product combines all four pillars at once:** (1) **Chrome MV3 extension** form factor, (2) **fine-tuned *small local* models** (not BYO cloud keys), (3) **local-first RAG memory** over the user's own history, and (4) **agentic browser control** — with **calibrated grounding** (citations + principled abstention/deferral) as the trust guarantee. Incumbents own any *three* at most; LocalOS owns the intersection.
+> **No shipping product combines all four pillars at once:** (1) **Chrome MV3 extension** form factor, (2) **fine-tuned *small local* models** (not BYO cloud keys), (3) **local-first RAG memory** over the user's own history, and (4) **agentic browser control** — with **calibrated grounding** (citations + principled abstention/deferral) as the trust guarantee. Incumbents own any *three* at most; Groundwork owns the intersection.
 
 ---
 
 ## 4. Product positioning (the one paragraph)
 
-> **LocalOS is a privacy-first, local-first agentic browser assistant shipped as a Chrome MV3 extension that can see and control the browser to do three jobs the incumbents only do in the cloud: (a) cross-tab research & knowledge synthesis with inline citations, (b) on-demand structured data extraction from pages, and (c) grounded recall over the user's own browsing history.** Small QLoRA-fine-tuned models (3B–8B, 4-bit GGUF via llama.cpp/Ollama) run high-frequency, specialized tasks fully on-device; an *optional* cloud LLM handles only hard multi-step planning; the system degrades gracefully to fully offline. It is for privacy- and cost-sensitive knowledge workers, students, researchers, and regulated users under-served by cloud-only, subscription-gated, geo-locked agents. It deliberately defers transactional automation (checkout/booking), which **shrinks the prompt-injection blast radius** and sidesteps the CFAA/authorization liability. Its trust guarantee is **calibrated grounding**: it acts only on what is actually on the page, answers only from what you actually read, cites its sources, and **abstains or asks** when it is uncertain.
+> **Groundwork is a privacy-first, local-first agentic browser assistant shipped as a Chrome MV3 extension that can see and control the browser to do three jobs the incumbents only do in the cloud: (a) cross-tab research & knowledge synthesis with inline citations, (b) on-demand structured data extraction from pages, and (c) grounded recall over the user's own browsing history.** Small QLoRA-fine-tuned models (3B–8B, 4-bit GGUF via llama.cpp/Ollama) run high-frequency, specialized tasks fully on-device; an *optional* cloud LLM handles only hard multi-step planning; the system degrades gracefully to fully offline. It is for privacy- and cost-sensitive knowledge workers, students, researchers, and regulated users under-served by cloud-only, subscription-gated, geo-locked agents. It deliberately defers transactional automation (checkout/booking), which **shrinks the prompt-injection blast radius** and sidesteps the CFAA/authorization liability. Its trust guarantee is **calibrated grounding**: it acts only on what is actually on the page, answers only from what you actually read, cites its sources, and **abstains or asks** when it is uncertain.
 
 ---
 
@@ -127,17 +127,17 @@ This is the intellectual spine that turns "a nice product" into "a defensible pa
 
 Full detail in [01 §7](01_PRODUCT_PLAN.md). The essence:
 
-| Competitor | What it is | **How LocalOS differs** |
+| Competitor | What it is | **How Groundwork differs** |
 |---|---|---|
-| **Perplexity Comet** | Free, cloud agentic browser | Cloud routing + full account privileges (proven email/OTP exfiltration, CFAA ruling). LocalOS keeps content/actions/index **on-device**, treats pages as untrusted, gates sensitive actions, leads with research/recall not transactions → smaller blast radius. |
-| **Claude for Chrome** | Cloud MV3 extension + sidecar, $20/mo | Closest form factor, but cloud-only + admitted **11.2% residual injection**. LocalOS is local-first, free/no-account/offline, safety-as-architecture (quarantined on-device executor + deferral fail-safe). |
-| **Chrome Auto-Browse / Gemini** | Cloud, paywalled, US-only | LocalOS: offline mode, no account, no geo-lock — serves the segment Google ignores. |
-| **Copilot Mode (Edge)** | Cloud, enterprise, auditable | LocalOS matches auditability (action log, confirmation gates, risk labels) **with data never leaving the device**. |
-| **browser-use** | Open dev framework (Python/TS), BYO cloud LLM | Validates our DOM/AX-tree + element-index design; but it's a library, not a consumer product. LocalOS owns the on-device, non-technical-user, extension niche with fine-tuned specialists. |
+| **Perplexity Comet** | Free, cloud agentic browser | Cloud routing + full account privileges (proven email/OTP exfiltration, CFAA ruling). Groundwork keeps content/actions/index **on-device**, treats pages as untrusted, gates sensitive actions, leads with research/recall not transactions → smaller blast radius. |
+| **Claude for Chrome** | Cloud MV3 extension + sidecar, $20/mo | Closest form factor, but cloud-only + admitted **11.2% residual injection**. Groundwork is local-first, free/no-account/offline, safety-as-architecture (quarantined on-device executor + deferral fail-safe). |
+| **Chrome Auto-Browse / Gemini** | Cloud, paywalled, US-only | Groundwork: offline mode, no account, no geo-lock — serves the segment Google ignores. |
+| **Copilot Mode (Edge)** | Cloud, enterprise, auditable | Groundwork matches auditability (action log, confirmation gates, risk labels) **with data never leaving the device**. |
+| **browser-use** | Open dev framework (Python/TS), BYO cloud LLM | Validates our DOM/AX-tree + element-index design; but it's a library, not a consumer product. Groundwork owns the on-device, non-technical-user, extension niche with fine-tuned specialists. |
 | **Nanobrowser** | Open MV3 multi-agent extension, BYO cloud key | We **fork its proven skeleton** (WXT, side panel, CDP) but swap cloud calls for fine-tuned local models + add RAG memory + calibrated refusal. |
-| **Brave Leo** | Private, BYOM/Ollama, mostly read-only | LocalOS marries the privacy plumbing to **true agentic control + task-specialized fine-tuned models**. |
-| **Fellou** | Cloud "agentic browser", acts from logged-in sessions | Same research job-to-be-done, but LocalOS does it **without acting on third-party authenticated sessions** (no CFAA exposure). |
-| **Sider / Monica / Merlin / HARPA** | Cheap cloud sidebar assistants | Commoditized "summarize + chat." LocalOS competes on **agentic control + private long-term memory with calibrated grounding**, not summarization. |
+| **Brave Leo** | Private, BYOM/Ollama, mostly read-only | Groundwork marries the privacy plumbing to **true agentic control + task-specialized fine-tuned models**. |
+| **Fellou** | Cloud "agentic browser", acts from logged-in sessions | Same research job-to-be-done, but Groundwork does it **without acting on third-party authenticated sessions** (no CFAA exposure). |
+| **Sider / Monica / Merlin / HARPA** | Cheap cloud sidebar assistants | Commoditized "summarize + chat." Groundwork competes on **agentic control + private long-term memory with calibrated grounding**, not summarization. |
 
 ---
 
@@ -179,35 +179,29 @@ Full detail in [01 §7](01_PRODUCT_PLAN.md). The essence:
 
 ---
 
-## 9. Naming decision
+## 9. Naming decision — ✅ resolved
 
-`LocalOS` reads like an operating system, undersells the browser/research/memory focus, and risks OS-brand collision. **Recommendation:** keep `LocalOS` as an internal codename and adopt a consumer-facing name. Candidates (from research synthesis):
+**Product name: Groundwork.** It signals the *calibrated-grounding* core (grounded answers + grounded actions) and "does the groundwork" of research; it's plain, memorable, and product-friendly. The repo directory remains `d:\LocalOS` for historical reasons (no need to move it).
 
-- **Groundwork** *(recommended)* — signals the *calibrated-grounding* core (grounded answers + grounded actions) and "does the groundwork"; plain and product-friendly.
-- **Marginalia** — notes in the margins of what you read; private annotation/recall. Distinctive, literary.
-- **Understory** — the private layer beneath the browsing "canopy" where your memory + agent live.
-- **Lodestone** — a naturally magnetized navigation stone; grounded, private guidance without a cloud compass.
-- **Palimpsest / Tabula / Kestrel / Keep** — alternates (check trademark collisions, esp. *Keep*).
-
-→ This is a **user preference**; pick one and I'll do a global rename. Docs use `LocalOS` until you decide.
+Alternatives that were considered (kept here for the record): **Marginalia** (notes in the margins of what you read), **Understory** (the private layer beneath the browsing canopy), **Lodestone** (grounded navigation without a cloud compass), **Palimpsest / Tabula / Kestrel / Keep**. Before publishing to the Chrome Web Store, do a quick trademark check on "Groundwork" in the software category.
 
 ---
 
-## 10. Decisions to confirm
+## 10. Decisions — status
 
-I made defensible defaults so you're not blocked. Correct any of these:
+Confirmed with the user on 2026-08-21: **name = Groundwork**, **timeline ≈ 6 months**, **training compute = Colab Pro / paid cloud (A100/L4 — 7B–8B QLoRA comfortable)**, **build + benchmark start now**.
 
-| # | Decision | My default | Why |
+| # | Decision | Status / value | Notes |
 |---|---|---|---|
-| 1 | **Model count** | **One shared base, two LoRA adapters** (action + QA), hot-swapped by the router; single multi-task model as an ablation | Halves on-device footprint & training effort vs two full models; keeps the "two tracks" story |
-| 2 | **Priority track if time runs short** | **Grounded-QA-refusal first** (Trust-Align gives a near-exact recipe, lower risk) → then action-grounding+deferral (headline novelty) | Guarantees a deliverable; unified framing works either way |
-| 3 | **Cloud planner policy** | **Optional BYO-key cloud planner** for hard planning *(page content + history never leave device)* **and** a first-class **100%-offline demo mode** | Satisfies capability + privacy; enables the local-vs-cloud ablation |
-| 4 | **Benchmark release** | **Yes — build & release Personal-Memory-RGB** (privacy-scrubbed) | Single highest-leverage move for a top-tier D&B submission |
-| 5 | **Naming** | Codename `LocalOS`; recommend **Groundwork** | Cosmetic; your call |
-| 6 | **Timeline** | ~6 months, solo (M1–M6 roadmap in [01](01_PRODUCT_PLAN.md)) | Your input needed — anchor to real dates |
-| 7 | **Target GPU for paper's efficiency numbers** | A representative consumer GPU / Colab (T4/L4 16 GB) — **tell me your actual card** | Sets model-size ceiling + credibility of the Pareto claims |
-| 8 | **Data budget** | Small cloud spend OK for teacher distillation + AgentTrek (~$0.55/trajectory × a few k) | Confirm, or we go fully-free/local |
-| 9 | **Primary archival venue** | **IEEE Access** (rolling) as the guaranteed graduation deliverable + a **NeurIPS/ICLR 2027 Datasets & Benchmarks** stretch | See [03 §venues](03_RESEARCH_PAPER_PLAN.md) — near-term 2026 workshop deadlines are largely out of reach from an Aug-2026 start |
+| 1 | **Model count** | **Default: one shared base, two LoRA adapters** (action + QA), router-hot-swapped; multi-task single model as an ablation | Halves footprint & training effort; keeps the "two tracks" story |
+| 2 | **Priority track if time runs short** | **QA-refusal first** (Trust-Align recipe, lower risk) → then action-grounding+deferral (headline novelty) | Guarantees a deliverable; unified framing works either way |
+| 3 | **Cloud planner policy** | **Optional BYO-key cloud planner** *(page content + history never leave device)* **+** first-class **offline mode** | Enables the local-vs-cloud ablation |
+| 4 | **Benchmark release** | ✅ **Yes — Personal-Memory-RGB** (spec in [05](05_BENCHMARK_Personal_Memory_RGB.md)) | Highest-leverage move for a top-tier D&B submission |
+| 5 | **Naming** | ✅ **Groundwork** (repo dir stays `d:\LocalOS`) | See §9 |
+| 6 | **Timeline** | ✅ **~6 months, solo** (M1–M6 roadmap in [01](01_PRODUCT_PLAN.md)) | Anchor M1 to your actual start date |
+| 7 | **Compute** | ✅ **Training: Colab Pro / paid cloud (A100/L4)** — 7B–8B QLoRA comfortable, teacher-distillation calls easy | ⚠️ *Still needed:* the **consumer machine** you'll benchmark **inference/latency/energy** on for the efficiency Pareto (the product is local-first, so the paper's on-device numbers must come from consumer HW, not the A100) |
+| 8 | **Data budget** | Small cloud spend assumed OK (teacher distillation + AgentTrek ~$0.55/traj × a few k) | Confirm the ceiling |
+| 9 | **Primary archival venue** | **IEEE Access** (rolling) guaranteed deliverable + **NeurIPS/ICLR 2027 D&B** stretch | See [03 §10](03_RESEARCH_PAPER_PLAN.md); near-term 2026 workshop deadlines are out of reach from an Aug-2026 start |
 
 ---
 

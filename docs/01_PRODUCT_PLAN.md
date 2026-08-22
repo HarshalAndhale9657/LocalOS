@@ -1,21 +1,21 @@
 # 01 — Product Plan
 
 > Companion to [00_MASTER](00_MASTER_Vision_and_Knowledge.md). Technical depth lives in [02_TECHNICAL_ARCHITECTURE](02_TECHNICAL_ARCHITECTURE.md); the research side in [03_RESEARCH_PAPER_PLAN](03_RESEARCH_PAPER_PLAN.md).
-> **Codename:** `LocalOS`. **Form factor:** Chrome MV3 extension + side panel. **Posture:** privacy-first, local-first, hybrid.
+> **Product:** Groundwork. **Form factor:** Chrome MV3 extension + side panel. **Posture:** privacy-first, local-first, hybrid.
 
 ---
 
 ## 1. Product summary
 
-LocalOS is an **agentic browser assistant** that lives in the Chrome side panel and can **see and control** the browser to do private research, pull structured data from pages on demand, and recall anything you've read — powered by **fine-tuned small local models** that cite their sources and **abstain or ask when unsure**. Page content, the memory index, and the primary models stay **on your device**. Cloud is optional, opt-in, and never sees your page content.
+Groundwork is an **agentic browser assistant** that lives in the Chrome side panel and can **see and control** the browser to do private research, pull structured data from pages on demand, and recall anything you've read — powered by **fine-tuned small local models** that cite their sources and **abstain or ask when unsure**. Page content, the memory index, and the primary models stay **on your device**. Cloud is optional, opt-in, and never sees your page content.
 
-**The wedge:** every agentic competitor is cloud-based and holds your full account privileges — and every one of them has been shown to leak data via hidden page instructions (indirect prompt injection). LocalOS is the private, calibrated, research-focused alternative that treats every page as untrusted and keeps the blast radius small by *not* doing transactions.
+**The wedge:** every agentic competitor is cloud-based and holds your full account privileges — and every one of them has been shown to leak data via hidden page instructions (indirect prompt injection). Groundwork is the private, calibrated, research-focused alternative that treats every page as untrusted and keeps the blast radius small by *not* doing transactions.
 
 ---
 
 ## 2. Target users & personas
 
-| Persona | Who | Pain today | LocalOS value |
+| Persona | Who | Pain today | Groundwork value |
 |---|---|---|---|
 | **The Researcher** (primary) | Grad students, analysts, academics | Reads 30+ tabs; loses what they read; cloud tools expose sensitive lit/IP | Private cross-tab synthesis with citations; grounded recall; nothing leaves the device |
 | **The Privacy-Conscious Pro** | Lawyers, healthcare, finance, journalists | Cannot paste client/patient/source data into cloud AI; compliance risk | On-device processing; auditable actions; no account, no egress |
@@ -37,7 +37,7 @@ LocalOS is an **agentic browser assistant** that lives in the Chrome side panel 
 ### JTBD-2 — On-demand structured data extraction
 > "Pull every product's name, price, and rating on this page into a table."
 
-- Point LocalOS at a page (or a set of pages); it returns clean structured output (table / JSON / CSV) you can copy or export.
+- Point Groundwork at a page (or a set of pages); it returns clean structured output (table / JSON / CSV) you can copy or export.
 - **Calibrated:** flags low-confidence fields rather than fabricating values.
 
 ### JTBD-3 — Personal memory & recall
@@ -152,9 +152,9 @@ Full detail in [02](02_TECHNICAL_ARCHITECTURE.md). At a glance:
 | Nanobrowser | ❌ (BYO cloud) | ✅ | ❌ | ❌ | ❌ | ✅ |
 | Brave Leo | ✅ | ⚠️ Nightly | ❌ (BYOM) | ❌ | ❌ | ❌ |
 | Second Brain (ref) | ✅ | ❌ | ✅ (1 track) | ✅ | ✅ | ❌ |
-| **LocalOS** | **✅** | **✅** | **✅ (2 tracks)** | **✅** | **✅** | **deferred (by design)** |
+| **Groundwork** | **✅** | **✅** | **✅ (2 tracks)** | **✅** | **✅** | **deferred (by design)** |
 
-**LocalOS is the only row that is all-local, agentic, fine-tuned, memory-grounded, and calibrated at once.**
+**Groundwork is the only row that is all-local, agentic, fine-tuned, memory-grounded, and calibrated at once.**
 
 ---
 

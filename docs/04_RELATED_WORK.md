@@ -1,8 +1,8 @@
 # 04 — Related Work & Annotated Bibliography
 
-> Grouped by theme, with *how it relates to LocalOS* and *the gap we fill*. This is the raw material for the paper's Related Work grid ([03 §11](03_RESEARCH_PAPER_PLAN.md)) and the source of the product's differentiation claims ([01 §7](01_PRODUCT_PLAN.md)). Verify every arXiv ID/date against the source before citing in the paper. Compiled 2026-08-21.
+> Grouped by theme, with *how it relates to Groundwork* and *the gap we fill*. This is the raw material for the paper's Related Work grid ([03 §11](03_RESEARCH_PAPER_PLAN.md)) and the source of the product's differentiation claims ([01 §7](01_PRODUCT_PLAN.md)). Verify every arXiv ID/date against the source before citing in the paper. Compiled 2026-08-21.
 
-**The gap in one line:** the literature has *action grounding*, *grounded-QA refusal*, and *agent safety* as **three separate conversations**. LocalOS is the first to **unify action deferral + answer abstention** as one selective-prediction problem, on a **small on-device model**, over a **personal-history RAG**, in a **Chrome MV3 extension** — with a released benchmark.
+**The gap in one line:** the literature has *action grounding*, *grounded-QA refusal*, and *agent safety* as **three separate conversations**. Groundwork is the first to **unify action deferral + answer abstention** as one selective-prediction problem, on a **small on-device model**, over a **personal-history RAG**, in a **Chrome MV3 extension** — with a released benchmark.
 
 ---
 
@@ -118,13 +118,13 @@
 
 ## F. The inspiration project (for honest positioning)
 
-- **Second Brain** (repo `secondbrain.md` + PDF): passive local RAG-over-history extension; small model SFT+DPO for grounded QA + calibrated refusal; WXT, transformers.js (all-MiniLM-L6-v2), PGlite+pgvector, SimHash, hybrid retrieval. **We cite it as the memory-subsystem inspiration and differentiate:** LocalOS adds **active agentic control**, a **second fine-tuning track (action grounding)**, the **unified calibrated-grounding** framing, **rigorous evaluation** (citation P/R, risk-coverage curves, DPO ablations, multi-run variance), and a **released benchmark** — none of which a passive hobby project provides.
+- **Second Brain** (repo `secondbrain.md` + PDF): passive local RAG-over-history extension; small model SFT+DPO for grounded QA + calibrated refusal; WXT, transformers.js (all-MiniLM-L6-v2), PGlite+pgvector, SimHash, hybrid retrieval. **We cite it as the memory-subsystem inspiration and differentiate:** Groundwork adds **active agentic control**, a **second fine-tuning track (action grounding)**, the **unified calibrated-grounding** framing, **rigorous evaluation** (citation P/R, risk-coverage curves, DPO ablations, multi-run variance), and a **released benchmark** — none of which a passive hobby project provides.
 
 ---
 
 ## How to use this file when writing the paper
 
-1. **Related Work grid:** four columns = A (action grounding) · C (grounded-QA refusal) · D (agent safety) · B/E (on-device + eval). Put LocalOS in a row that ticks all four — the visual argument for novelty.
+1. **Related Work grid:** four columns = A (action grounding) · C (grounded-QA refusal) · D (agent safety) · B/E (on-device + eval). Put Groundwork in a row that ticks all four — the visual argument for novelty.
 2. **Every product differentiation claim** in [01](01_PRODUCT_PLAN.md) must trace to a row here (keeps marketing honest).
 3. **Every baseline** in [03 §6](03_RESEARCH_PAPER_PLAN.md) must be a citation here (keeps the paper honest).
 4. **Verify IDs/dates/venues** against primary sources before submission — some were gathered rapidly; a few 2026 dates/deadlines are already past relative to an Aug-2026 start.
