@@ -5,6 +5,16 @@
  * local/cloud escalation router. See ../../docs/02_TECHNICAL_ARCHITECTURE.md.
  */
 import { createMemory, type MemoryStore } from '../lib/memory';
+import { createObserver } from '../lib/observe';
+import { forModel } from '../lib/observe/axtree';
+
+async function observeActiveTab() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab?.id) return { error: 'no active tab' };
+  const obs = await createObserver().snapshot(tab.id, '');
+  // return a compact summary (executor-only fields stripped) for verification
+  return { url: obs.url, versionId: obs.versionId, nodeCount: obs.nodes.length, sample: forModel(obs.nodes).slice(0, 10) };
+}
 
 async function captureActiveTab(memory: MemoryStore) {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -53,8 +63,13 @@ export default defineBackground(() => {
           .catch((e) => sendResponse({ error: String(e?.message ?? e) }));
         return true;
 
-      // TODO(M1.2) OBSERVE — compressed a11y snapshot via CDP
-      // TODO(M1.3) ACT — dispatch SAFE actions via CDP
+      case 'OBSERVE_ACTIVE_TAB': // CDP accessibility-tree snapshot of the active tab
+        observeActiveTab()
+          .then(sendResponse)
+          .catch((e) => sendResponse({ error: String(e?.message ?? e) }));
+        return true;
+
+      // TODO(M1.3) ACT — dispatch SAFE actions via CDP (uses observation.backendNodeId)
       // TODO(M1.5) ANSWER — grounded QA via local model (Ollama)
       default:
         return false;

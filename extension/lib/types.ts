@@ -11,6 +11,7 @@ export interface AXNode {
   name?: string; // accessible name
   value?: string;
   state?: string[]; // focused, disabled, hidden, …
+  backendNodeId?: number; // CDP handle for the executor (stripped before the model sees it)
 }
 
 export interface Observation {

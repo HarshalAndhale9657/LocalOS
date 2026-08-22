@@ -23,7 +23,8 @@ Graduation / major project **and** an IEEE-level-and-above research paper, unifi
 - 🔬 **Benchmark v0 done:** `benchmark/` generates synthetic Personal-Memory-RGB data (all 6 classes) + a working refusal-metrics eval harness (validated: 0 broken citations; oracle 1.0 vs trivial baselines; BM25 reference system on held-out test). Teacher-LLM enrichment + action-safety split come in M2/M4.
 - 🧠 **M1.4 memory implemented** (builds + typechecks): capture (Readability) → chunk → SimHash-dedup → transformers.js embeddings → PGlite store → retrieve (cosine + time-decay + MMR + negative-rejection), wired into the side panel ("Remember page" + "Ask"). *Runtime pending a Chrome load.*
 - 📦 **Offline embedding model bundled:** `npm run fetch-model` downloads `bge-small-en-v1.5` (quantized ONNX) into `public/models/` (gitignored) and transformers.js is configured to load it locally — **no HF Hub call at runtime**. Remaining caveats: JS-side cosine (pgvector/HNSW later); confirm the ORT-wasm runtime loads from the bundled asset offline; PGlite's `eval` vs the extension CSP — all to check on a Chrome load.
-- ⏭ Next: verify M1.4 in Chrome → M1.2 observe (CDP a11y) → M1.5 grounded answering (base model via Ollama → first Personal-Memory-RGB number). See [`docs/06`](docs/06_M1_BUILD_PLAN.md).
+- 👁 **M1.2 observe implemented** (builds + typechecks): CDP accessibility-tree snapshot → compressed on-task nodes with stable indices + change-detecting `versionId` + executor-only `backendNodeId`; `OBSERVE_ACTIVE_TAB` route. *Runtime pending a Chrome load.*
+- ⏭ Next: verify M1.2/M1.4 in Chrome → M1.3 act (CDP input + confirmation gates) and/or M1.5 grounded answering (base model via Ollama → first Personal-Memory-RGB number). See [`docs/06`](docs/06_M1_BUILD_PLAN.md).
 
 ## Develop the extension
 
