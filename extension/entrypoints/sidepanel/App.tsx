@@ -40,17 +40,13 @@ function App() {
     setMessages((m) => [...m, { role: 'user', text: q }]);
     setBusy(true);
     try {
-      const r: any = await chrome.runtime.sendMessage({ type: 'MEMORY_RETRIEVE', query: q, opts: { k: 4 } });
-      const chunks: Cite[] = r?.chunks ?? [];
+      const r: any = await chrome.runtime.sendMessage({ type: 'ASK', query: q, opts: { k: 4 } });
       if (r?.error) {
-        setMessages((m) => [...m, { role: 'agent', text: `Retrieval error: ${r.error}` }]);
-      } else if (!chunks.length) {
-        setMessages((m) => [...m, { role: 'agent', text: 'Not found in your history.' }]);
+        setMessages((m) => [...m, { role: 'agent', text: `Error: ${r.error}` }]);
       } else {
-        setMessages((m) => [
-          ...m,
-          { role: 'agent', text: 'Found this in your memory (grounded answer generation is M1.5):', citations: chunks },
-        ]);
+        const a = r?.answer ?? {};
+        const cites: Cite[] = a.decision === 'abstain' ? [] : a.citations ?? [];
+        setMessages((m) => [...m, { role: 'agent', text: a.text || 'Not found in your history.', citations: cites }]);
       }
     } finally {
       setBusy(false);

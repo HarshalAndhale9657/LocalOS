@@ -7,6 +7,29 @@
 import { createMemory, type MemoryStore } from '../lib/memory';
 import { createObserver } from '../lib/observe';
 import { forModel } from '../lib/observe/axtree';
+import { createLocalModel } from '../lib/model';
+
+async function askMemory(memory: MemoryStore, query: string, k = 5) {
+  const model = createLocalModel();
+  const chunks = await memory.retrieve(query, { k });
+  try {
+    const answer = await model.answer(query, chunks);
+    return { answer };
+  } catch (e: any) {
+    // Ollama not running / unreachable -> degrade to retrieval-only, don't hallucinate
+    return {
+      answer: {
+        decision: chunks.length ? 'answer' : 'abstain',
+        text: chunks.length
+          ? 'Local model unavailable (is Ollama running?). Showing the sources I retrieved from your history:'
+          : 'Not found in your history.',
+        citations: chunks,
+        confidence: 0,
+      },
+      modelError: String(e?.message ?? e),
+    };
+  }
+}
 
 async function observeActiveTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -45,6 +68,12 @@ export default defineBackground(() => {
 
       case 'CAPTURE_ACTIVE_TAB': // read the active tab (Readability) + index into memory
         captureActiveTab(memory)
+          .then(sendResponse)
+          .catch((e) => sendResponse({ error: String(e?.message ?? e) }));
+        return true;
+
+      case 'ASK': // retrieve from memory -> grounded, cited answer (or calibrated refusal)
+        askMemory(memory, message.query, message.opts?.k)
           .then(sendResponse)
           .catch((e) => sendResponse({ error: String(e?.message ?? e) }));
         return true;
