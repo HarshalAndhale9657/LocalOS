@@ -46,7 +46,7 @@ def main():
     preds, gold = systems(items)
 
     n_abstain = sum(1 for g in gold.values() if g == "abstain")
-    print(f"\nPersonal-Memory-RGB v0 — {len(items)} items "
+    print(f"\nPersonal-Memory-RGB v0 - {len(items)} items "
           f"({n_abstain} must-abstain / {len(items)-n_abstain} answerable)\n")
 
     hdr = f"{'system':<16}{'abst_P':>8}{'abst_R':>8}{'abst_F1':>9}{'dec_acc':>9}"
@@ -56,7 +56,7 @@ def main():
         m = refusal_metrics(gold, pred)
         print(f"{name:<16}{m['abstain_precision']:>8.3f}{m['abstain_recall']:>8.3f}"
               f"{m['abstain_f1']:>9.3f}{m['decision_accuracy']:>9.3f}")
-    print("\n(Only a calibrated system beats the trivial baselines — that gap is the paper's point.)\n")
+    print("\n(Only a calibrated system beats the trivial baselines - that gap is the paper's point.)\n")
 
 
 if __name__ == "__main__":

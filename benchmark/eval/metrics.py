@@ -58,6 +58,32 @@ def risk_coverage(preds: list[Prediction], correct: dict[str, bool]) -> list[tup
     return pts
 
 
+def auroc(scores: list[float], labels: list[int]) -> float:
+    """AUROC via the Mann-Whitney U statistic (rank-based). labels: 1 = positive.
+
+    Here the positive class is 'should abstain' and `scores` is the abstain-likelihood
+    signal — so this measures how well the signal separates must-abstain from answerable.
+    """
+    pos = [s for s, y in zip(scores, labels) if y == 1]
+    neg = [s for s, y in zip(scores, labels) if y == 0]
+    if not pos or not neg:
+        return float("nan")
+    order = sorted(range(len(scores)), key=lambda i: scores[i])
+    ranks = [0.0] * len(scores)
+    i = 0
+    while i < len(order):
+        j = i
+        while j + 1 < len(order) and scores[order[j + 1]] == scores[order[i]]:
+            j += 1
+        avg = (i + j) / 2 + 1  # average rank for ties (1-based)
+        for k in range(i, j + 1):
+            ranks[order[k]] = avg
+        i = j + 1
+    sum_pos = sum(r for r, y in zip(ranks, labels) if y == 1)
+    n_pos, n_neg = len(pos), len(neg)
+    return (sum_pos - n_pos * (n_pos + 1) / 2) / (n_pos * n_neg)
+
+
 # --- interfaces to implement in M2+ (need a judge/model) --------------------
 def ragas_faithfulness(*_a, **_k):  # pragma: no cover - interface
     raise NotImplementedError("RAGAS faithfulness needs a judge model (M2)")

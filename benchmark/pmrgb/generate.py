@@ -102,7 +102,20 @@ def _cite(page: Page, sentence: str) -> Citation:
 # --- history + items --------------------------------------------------------
 def build_history(rng: random.Random, universe: list[Entity], idx: int, pages_per: int):
     hid = f"hist_{idx:03d}"
-    chosen = rng.sample(universe, pages_per)
+    # Sample so several domains appear with >=2 entities => real multi-hop comparisons.
+    by_dom: dict[str, list] = {}
+    for e in universe:
+        by_dom.setdefault(e.domain, []).append(e)
+    doms = [d for d in by_dom if len(by_dom[d]) >= 2]
+    rng.shuffle(doms)
+    chosen: list = []
+    for d in doms[: max(1, pages_per // 2)]:
+        chosen += rng.sample(by_dom[d], 2)
+    while len(chosen) < pages_per:
+        e = rng.choice(universe)
+        if e not in chosen:
+            chosen.append(e)
+    chosen = chosen[:pages_per]
     base = datetime(2026, 7, 7, 9, 0, 0)
     meta = {}
     pages: list[Page] = []
@@ -146,26 +159,29 @@ def gen_items(rng: random.Random, hist: History, meta: dict, universe: list[Enti
             f"What is the {label} of the {ent.name}?", "single_hop", "answer",
             f"{val} {unit}", [_cite(m["page"], m["sents"][label])], as_of, "easy"))
 
-    # --- answerable: multi_hop (2) — compare a shared attribute ---
-    for _ in range(2):
-        cand = [p for p in pids]
-        if len(cand) < 2:
+    # --- answerable: multi_hop — compare a shared attribute across two same-domain pages ---
+    dom_pages: dict[str, list] = {}
+    for pid in pids:
+        dom_pages.setdefault(meta[pid]["ent"].domain, []).append(pid)
+    pairs = [(ps[i], ps[j]) for ps in dom_pages.values()
+             for i in range(len(ps)) for j in range(i + 1, len(ps))]
+    rng.shuffle(pairs)
+    made = 0
+    for a, b in pairs:
+        if made >= 3:
             break
-        a, b = rng.sample(cand, 2)
         ea, eb = meta[a]["ent"], meta[b]["ent"]
-        shared = set(ea.attrs) & set(eb.attrs)
+        shared = [l for l in ea.attrs if l in eb.attrs and ea.attrs[l][0] != eb.attrs[l][0]]
         if not shared:
             continue
-        label = rng.choice(sorted(shared))
-        va = ea.attrs[label][0]; vb = eb.attrs[label][0]
-        if va == vb:
-            continue
-        winner = ea if va > vb else eb
+        label = rng.choice(shared)
+        winner = ea if ea.attrs[label][0] > eb.attrs[label][0] else eb
         items.append(QAItem(nid(), hist.history_id,
             f"Which has the higher {label}, the {ea.name} or the {eb.name}?",
             "multi_hop", "answer", winner.name,
             [_cite(meta[a]["page"], meta[a]["sents"][label]),
              _cite(meta[b]["page"], meta[b]["sents"][label])], as_of, "medium"))
+        made += 1
 
     # --- answerable: time_scoped (2) ---
     for pid in rng.sample(pids, min(2, len(pids))):
