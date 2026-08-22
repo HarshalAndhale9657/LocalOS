@@ -43,10 +43,15 @@ def main():
     args = ap.parse_args()
 
     items = load_items(args.data)
+    if any("split" in it for it in items):
+        items = [it for it in items if it.get("split") == "test"]
+        scope = "test split"
+    else:
+        scope = "all items"
     preds, gold = systems(items)
 
     n_abstain = sum(1 for g in gold.values() if g == "abstain")
-    print(f"\nPersonal-Memory-RGB v0 - {len(items)} items "
+    print(f"\nPersonal-Memory-RGB v0 [{scope}] - {len(items)} items "
           f"({n_abstain} must-abstain / {len(items)-n_abstain} answerable)\n")
 
     hdr = f"{'system':<16}{'abst_P':>8}{'abst_R':>8}{'abst_F1':>9}{'dec_acc':>9}"

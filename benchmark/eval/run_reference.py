@@ -54,38 +54,47 @@ def main():
     gold = {it["id"]: it["gold_decision"] for it in items}
     smax = max(top_scores.values()) or 1.0
 
-    # choose tau
+    has_split = any("split" in it for it in items)
+    dev = [it for it in items if it.get("split") == "dev"] if has_split else items
+    test = [it for it in items if it.get("split") == "test"] if has_split else items
+
+    def preds_at(subset, tau):
+        return {it["id"]: ("answer" if top_scores[it["id"]] >= tau else "abstain") for it in subset}
+
+    # fit tau on DEV (or the whole set if unsplit), evaluate on TEST
     if args.tau == "auto":
-        cands = sorted(set(top_scores.values()))
+        dev_gold = {it["id"]: it["gold_decision"] for it in dev}
         best_tau, best_acc = 0.0, -1.0
-        for tau in cands:
-            pred = {i: ("answer" if s >= tau else "abstain") for i, s in top_scores.items()}
-            acc = refusal_metrics(gold, pred)["decision_accuracy"]
+        for tau in sorted({top_scores[it["id"]] for it in dev}):
+            acc = refusal_metrics(dev_gold, preds_at(dev, tau))["decision_accuracy"]
             if acc > best_acc:
                 best_acc, best_tau = acc, tau
         tau = best_tau
     else:
         tau = float(args.tau)
 
-    pred = {i: ("answer" if s >= tau else "abstain") for i, s in top_scores.items()}
-    m = refusal_metrics(gold, pred)
+    test_gold = {it["id"]: it["gold_decision"] for it in test}
+    pred = preds_at(test, tau)
+    m = refusal_metrics(test_gold, pred)
 
-    # abstention AUROC: positive = should-abstain; signal = LOW retrieval score
-    ids = [it["id"] for it in items]
-    labels = [1 if gold[i] == "abstain" else 0 for i in ids]
+    # abstention AUROC on TEST: positive = should-abstain; signal = LOW retrieval score
+    ids = [it["id"] for it in test]
+    labels = [1 if test_gold[i] == "abstain" else 0 for i in ids]
     abstain_signal = [1.0 - top_scores[i] / smax for i in ids]
     au = auroc(abstain_signal, labels)
 
-    note = "fit on eval set - OPTIMISTIC upper bound; use a dev split in M2" if args.tau == "auto" else "fixed"
-    print(f"\nReference system: BM25 + score-threshold abstention (tau={tau:.3f}, {note})")
+    note = (f"tau fit on dev (n={len(dev)}), reported on test (n={len(test)})"
+            if has_split else "no split found - fit & reported on all items (optimistic)")
+    print(f"\nReference system: BM25 + score-threshold abstention (tau={tau:.3f})")
+    print(f"  [{note}]")
     print(f"  abstain P/R/F1 = {m['abstain_precision']:.3f} / {m['abstain_recall']:.3f} / {m['abstain_f1']:.3f}"
           f"   decision_acc = {m['decision_accuracy']:.3f}")
     print(f"  abstention AUROC (retrieval-score signal) = {au:.3f}")
 
-    # per-type decision accuracy — the diagnostic that motivates the fine-tuned model
+    # per-type decision accuracy on TEST — the diagnostic that motivates the fine-tuned model
     per = defaultdict(lambda: [0, 0])
-    for it in items:
-        ok = (pred[it["id"]] == gold[it["id"]])
+    for it in test:
+        ok = (pred[it["id"]] == test_gold[it["id"]])
         per[it["type"]][0] += 1 if ok else 0
         per[it["type"]][1] += 1
     print("\n  per-type decision accuracy:")

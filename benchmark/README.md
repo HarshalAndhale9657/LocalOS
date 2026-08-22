@@ -31,27 +31,26 @@ python -m eval.run_baseline --data data/v0      # trivial systems (validates the
 python -m eval.run_reference --data data/v0     # BM25 + score-threshold abstention (a real baseline)
 ```
 
-## Reproducible v0 result (seed 7, 12 histories / 180 items)
+## Reproducible v0 result (seed 7, 20 histories / 300 items; 60/20/20 split by history)
 
 Trivial systems frame the axis (oracle 1.0; always-answer & always-abstain both fail).
-The **reference system** (BM25 retrieval + score-threshold abstention) reaches
-abstain-F1 ≈ 0.80 / decision-acc ≈ 0.78 / **abstention-AUROC ≈ 0.77** — but its per-type
-breakdown is the point:
+The **reference system** (BM25 retrieval + score-threshold abstention, **τ fit on dev,
+reported on held-out test**) reaches abstain-F1 ≈ **0.81** / decision-acc ≈ **0.78** /
+**abstention-AUROC ≈ 0.81** — but its per-type breakdown on test is the point:
 
-| class | lexical-threshold decision acc |
+| class | lexical-threshold decision acc (test) |
 |---|---|
 | not_in_history | 1.00 |
 | stale | 1.00 |
-| multi_hop | 0.97 |
-| false_premise | 0.79 |
-| single_hop | 0.72 |
+| multi_hop | 0.92 |
+| false_premise | 0.88 |
+| single_hop | 0.75 |
 | **time_scoped** | **0.00** |
 
 A single global retrieval-score cutoff cannot separate *answerable-but-low-lexical-overlap*
 questions (time-scoped / recency) from *must-abstain* ones. Closing that gap with a **learned**
 abstention signal (SFT+DPO calibrated model) is the paper's core claim ([docs/03](../docs/03_RESEARCH_PAPER_PLAN.md)).
-*(Caveat: the reference threshold is currently fit on the eval set — an optimistic upper bound;
-a dev/test split lands in M2.)*
+*(Numbers move slightly with `--histories`/`--seed`; split is by `history_id` so no history leaks across dev/test.)*
 
 ## Question classes (v0)
 Answerable: `single_hop`, `multi_hop`, `time_scoped`.
