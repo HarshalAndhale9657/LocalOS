@@ -14,9 +14,11 @@ venv/
 # benchmark data (released separately; keep out of git until publication)
 benchmark/data/
 
-# models / weights
+# models / weights (fetched via `npm run fetch-model`, not committed)
 *.gguf
 *.safetensors
+*.onnx
+extension/public/models/
 
 # OS / editor
 .DS_Store
