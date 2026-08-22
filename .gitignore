@@ -1,0 +1,25 @@
+# dependencies / build output
+node_modules/
+.output/
+.wxt/
+dist/
+*.log
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# benchmark data (released separately; keep out of git until publication)
+benchmark/data/
+
+# models / weights
+*.gguf
+*.safetensors
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

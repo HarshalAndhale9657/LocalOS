@@ -1,0 +1,80 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.gw-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: Canvas;
+  color: CanvasText;
+}
+
+.gw-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid color-mix(in srgb, CanvasText 12%, transparent);
+}
+.gw-logo { font-size: 20px; color: #2f8f5b; }
+.gw-title { font-weight: 700; font-size: 15px; }
+.gw-sub { font-size: 11px; opacity: 0.6; }
+
+.gw-thread {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gw-msg { display: flex; flex-direction: column; gap: 4px; max-width: 92%; }
+.gw-user { align-self: flex-end; align-items: flex-end; }
+.gw-agent { align-self: flex-start; }
+
+.gw-bubble {
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+.gw-user .gw-bubble { background: #2f8f5b; color: white; }
+.gw-agent .gw-bubble { background: color-mix(in srgb, CanvasText 8%, transparent); }
+
+.gw-cites { display: flex; gap: 6px; flex-wrap: wrap; }
+.gw-cite { font-size: 11px; text-decoration: none; opacity: 0.8; }
+
+.gw-input {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid color-mix(in srgb, CanvasText 12%, transparent);
+}
+.gw-input textarea {
+  flex: 1;
+  resize: none;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
+  background: Field;
+  color: FieldText;
+  padding: 8px;
+  font: inherit;
+  font-size: 13px;
+}
+.gw-input button {
+  align-self: stretch;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2f8f5b;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
