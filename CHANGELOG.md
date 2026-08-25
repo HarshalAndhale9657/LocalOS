@@ -27,6 +27,10 @@ Safety- and privacy-relevant changes are additionally logged in
 - **M1.5 Grounded answering (QA half):** Ollama client with a grounded-QA prompt (inline
   `[n]` citations, calibrated "Not found in your history." refusal, spotlighted sources);
   `ASK` route degrades to retrieval-only when Ollama is unreachable.
+- **Agentic task loop + action UI:** `model.act()` decides the next action from a spotlighted
+  observation; `lib/agent` runs observe → decide → risk-gate → confirm → act → re-observe
+  (cancelable, step-limited), streaming events to the panel. Side panel adds an Ask/Do mode
+  toggle, a live action log, a confirmation card (Approve/Reject) for non-SAFE actions, and Stop.
 - **Personal-Memory-RGB v0 benchmark:** synthetic-history generator (6 question classes),
   train/dev/test split by history, and an evaluation harness (refusal precision/recall/F1,
   decision accuracy, risk-coverage, abstention AUROC) with a BM25 + threshold-abstention

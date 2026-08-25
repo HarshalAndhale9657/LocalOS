@@ -8,6 +8,7 @@ import { createMemory, type MemoryStore } from '../lib/memory';
 import { createObserver } from '../lib/observe';
 import { forModel } from '../lib/observe/axtree';
 import { createLocalModel } from '../lib/model';
+import { runTask, resolveConfirm, cancelTask } from '../lib/agent';
 
 async function askMemory(memory: MemoryStore, query: string, k = 5) {
   const model = createLocalModel();
@@ -76,6 +77,28 @@ export default defineBackground(() => {
         askMemory(memory, message.query, message.opts?.k)
           .then(sendResponse)
           .catch((e) => sendResponse({ error: String(e?.message ?? e) }));
+        return true;
+
+      case 'RUN_TASK': // agentic loop: observe -> decide -> confirm -> act (events stream back)
+        (async () => {
+          const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+          if (!tab?.id) {
+            sendResponse({ error: 'no active tab' });
+            return;
+          }
+          sendResponse({ ok: true });
+          void runTask(message.goal, tab.id);
+        })();
+        return true;
+
+      case 'CONFIRM_RESULT':
+        resolveConfirm(message.id, !!message.approved);
+        sendResponse({ ok: true });
+        return true;
+
+      case 'CANCEL_TASK':
+        cancelTask();
+        sendResponse({ ok: true });
         return true;
 
       case 'MEMORY_RETRIEVE':

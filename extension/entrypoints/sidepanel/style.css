@@ -36,6 +36,29 @@ body { margin: 0; }
 }
 .gw-remember:disabled { opacity: 0.5; cursor: default; }
 
+.gw-modes {
+  display: flex;
+  gap: 6px;
+  padding: 8px 14px 0;
+}
+.gw-mode {
+  flex: 1;
+  padding: 6px 0;
+  border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
+  border-radius: 8px;
+  background: transparent;
+  color: CanvasText;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.gw-mode.active {
+  background: #2f8f5b;
+  color: white;
+  border-color: #2f8f5b;
+}
+.gw-mode:disabled { opacity: 0.5; cursor: default; }
+
 .gw-thread {
   flex: 1;
   overflow-y: auto;
@@ -44,6 +67,40 @@ body { margin: 0; }
   flex-direction: column;
   gap: 12px;
 }
+
+/* compact agent "log" lines during a task */
+.gw-logline .gw-bubble {
+  background: transparent;
+  padding: 2px 0;
+  font-size: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  opacity: 0.75;
+}
+
+.gw-confirm {
+  margin: 0 12px 8px;
+  padding: 10px 12px;
+  border: 1px solid #d08a00;
+  border-radius: 10px;
+  background: color-mix(in srgb, #d08a00 12%, transparent);
+}
+.gw-confirm-title { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+.gw-confirm-body { font-size: 13px; margin-bottom: 8px; }
+.gw-confirm-actions { display: flex; gap: 8px; }
+.gw-confirm-actions button {
+  flex: 1;
+  padding: 6px 0;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.gw-approve { background: #2f8f5b; color: white; }
+.gw-reject { background: color-mix(in srgb, CanvasText 12%, transparent); color: CanvasText; }
+.gw-risk { font-weight: 800; }
+.gw-risk-caution { color: #d08a00; }
+.gw-risk-unsafe { color: #c23b3b; }
+.gw-cancel { align-self: stretch; padding: 0 16px; border: none; border-radius: 8px; background: #c23b3b; color: white; font-weight: 600; cursor: pointer; }
 
 .gw-msg { display: flex; flex-direction: column; gap: 4px; max-width: 92%; }
 .gw-user { align-self: flex-end; align-items: flex-end; }

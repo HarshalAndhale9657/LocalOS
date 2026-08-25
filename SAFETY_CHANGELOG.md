@@ -47,6 +47,11 @@ content is handled, permissions, data storage/egress, or confirmation/deferral b
   irreversible/state-changing actions taken without consent. *Mitigation:* non-SAFE actions
   return `needsConfirm` and are not executed until the user approves; submit/pay/delete-like
   clicks are flagged UNSAFE.
+- **Human-in-the-loop enforced in the agent loop** (`lib/agent`). *Threat:* an autonomous
+  loop taking risky actions without oversight. *Mitigation:* the loop pauses on any non-SAFE
+  action and streams a confirmation card (Approve/Reject) to the side panel before executing;
+  it is step-limited and user-cancelable (Stop). Element text is `spotlight()`-wrapped
+  *before* the decision model sees it, so page content cannot steer the agent as instructions.
 - **Calibrated grounded refusal** (`lib/model`). *Threat:* confident hallucination over a
   personal memory. *Mitigation:* answer only from cited sources or reply "Not found in your
   history."; degrade to retrieval-only (never fabricate) when the local model is unavailable.
