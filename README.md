@@ -26,7 +26,8 @@ Graduation / major project **and** an IEEE-level-and-above research paper, unifi
 - 👁 **M1.2 observe + 🖱 M1.3 act implemented** (build + typecheck): CDP a11y snapshot → compressed indexed nodes + `versionId`; executor maps `index → backendNodeId → CDP` (click/type/scroll/navigate) with a stale-snapshot guard + SAFE/CAUTION/UNSAFE confirmation gate.
 - 💬 **M1.5 grounded answering (QA half) implemented** (build + typecheck): Ollama client with a grounded-QA prompt (inline `[n]` citations + calibrated "Not found in your history" refusal, sources spotlighted as untrusted); side-panel "Ask" wired, degrades to retrieval-only if Ollama is down.
 - 🤖 **Agentic task loop + action UI implemented** (build + typecheck): `model.act()` decides actions from a spotlighted observation; `lib/agent` runs **observe → decide → risk-gate → confirm → act → re-observe** (cancelable), streaming events to the panel. Side panel gained an **Ask/Do toggle**, live **action log**, **confirmation card** (Approve/Reject) for non-SAFE actions, and **Stop**. The observe→act→memory→answer→agent path is now wired end-to-end (runtime needs Ollama).
-- ⏭ Next: install Ollama & verify in Chrome → M1.6 (extension vs Personal-Memory-RGB base number) → settings/privacy panel. See [`docs/06`](docs/06_M1_BUILD_PLAN.md).
+- ⚙️ **Settings & privacy panel implemented** (build + typecheck): typed `lib/settings` (chrome.storage) with a capture toggle, a **sensitive-domain blocklist that gates capture** (banking/webmail/health/… defaults), a local-model picker, and one-click **wipe all memory** — reachable via the gear in the side panel.
+- ⏭ Next: install Ollama & verify in Chrome → M1.6 (extension vs Personal-Memory-RGB base number). See [`docs/06`](docs/06_M1_BUILD_PLAN.md).
 
 ## Develop the extension
 

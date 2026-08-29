@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import SettingsView from './SettingsView';
 import './style.css';
 
 type Cite = { url: string; title: string; readAt: string; text: string; score: number };
@@ -24,6 +25,7 @@ function App() {
   const [busy, setBusy] = useState(false);
   const [taskRunning, setTaskRunning] = useState(false);
   const [confirm, setConfirm] = useState<Confirm | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
   const threadRef = useRef<HTMLDivElement>(null);
 
   const append = (m: Msg) => setMessages((prev) => [...prev, m]);
@@ -118,8 +120,13 @@ function App() {
         <button className="gw-remember" onClick={remember} disabled={busy} title="Capture & index the active tab">
           + Remember
         </button>
+        <button className="gw-gear" onClick={() => setShowSettings((v) => !v)} title="Settings & privacy" aria-label="Settings">⚙</button>
       </header>
 
+      {showSettings ? (
+        <SettingsView onClose={() => setShowSettings(false)} />
+      ) : (
+      <>
       <div className="gw-modes">
         <button className={mode === 'ask' ? 'gw-mode active' : 'gw-mode'} onClick={() => setMode('ask')} disabled={taskRunning}>
           Ask
@@ -184,6 +191,8 @@ function App() {
           <button onClick={submit} disabled={busy}>{busy ? '…' : mode === 'ask' ? 'Ask' : 'Run'}</button>
         )}
       </footer>
+      </>
+      )}
     </div>
   );
 }

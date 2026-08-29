@@ -9,12 +9,13 @@ import { createObserver } from '../lib/observe';
 import { forModel } from '../lib/observe/axtree';
 import { createLocalModel } from '../lib/model';
 import { runTask, resolveConfirm, cancelTask } from '../lib/agent';
+import { getSettings, saveSettings, isBlocked } from '../lib/settings';
 
-async function askMemory(memory: MemoryStore, query: string, k = 5) {
-  const model = createLocalModel();
+async function askMemory(memory: MemoryStore, query: string, k = 5, model?: string) {
+  const localModel = createLocalModel(model);
   const chunks = await memory.retrieve(query, { k });
   try {
-    const answer = await model.answer(query, chunks);
+    const answer = await localModel.answer(query, chunks);
     return { answer };
   } catch (e: any) {
     // Ollama not running / unreachable -> degrade to retrieval-only, don't hallucinate
@@ -45,8 +46,15 @@ async function captureActiveTab(memory: MemoryStore) {
   if (!tab?.id) return { error: 'no active tab' };
   const page: any = await chrome.tabs.sendMessage(tab.id, { type: 'CAPTURE_PAGE' });
   if (!page?.text) return { error: 'could not read page' };
+
+  // privacy gates before anything is written to the index
+  const settings = await getSettings();
+  const meta = { page: { url: page.url, title: page.title } };
+  if (!settings.captureEnabled) return { ...meta, indexed: false, reason: 'capture is turned off in Settings' };
+  if (isBlocked(page.url, settings)) return { ...meta, indexed: false, reason: 'blocked (sensitive domain)' };
+
   const res = await memory.index(page);
-  return { page: { url: page.url, title: page.title }, ...res };
+  return { ...meta, ...res };
 }
 
 export default defineBackground(() => {
@@ -74,7 +82,10 @@ export default defineBackground(() => {
         return true;
 
       case 'ASK': // retrieve from memory -> grounded, cited answer (or calibrated refusal)
-        askMemory(memory, message.query, message.opts?.k)
+        (async () => {
+          const { model } = await getSettings();
+          return askMemory(memory, message.query, message.opts?.k, model);
+        })()
           .then(sendResponse)
           .catch((e) => sendResponse({ error: String(e?.message ?? e) }));
         return true;
@@ -87,8 +98,21 @@ export default defineBackground(() => {
             return;
           }
           sendResponse({ ok: true });
-          void runTask(message.goal, tab.id);
+          const { model } = await getSettings();
+          void runTask(message.goal, tab.id, model);
         })();
+        return true;
+
+      case 'GET_SETTINGS':
+        getSettings()
+          .then((settings) => sendResponse({ settings }))
+          .catch((e) => sendResponse({ error: String(e?.message ?? e) }));
+        return true;
+
+      case 'SAVE_SETTINGS':
+        saveSettings(message.settings)
+          .then((settings) => sendResponse({ settings }))
+          .catch((e) => sendResponse({ error: String(e?.message ?? e) }));
         return true;
 
       case 'CONFIRM_RESULT':

@@ -58,7 +58,7 @@ function requestConfirm(action: Action, obs: Observation): Promise<boolean> {
   return new Promise((resolve) => pendingConfirms.set(id, resolve));
 }
 
-export async function runTask(goal: string, tabId: number, maxSteps = 8): Promise<void> {
+export async function runTask(goal: string, tabId: number, modelName?: string, maxSteps = 8): Promise<void> {
   if (running) {
     emit({ kind: 'error', error: 'A task is already running.' });
     return;
@@ -67,7 +67,7 @@ export async function runTask(goal: string, tabId: number, maxSteps = 8): Promis
   canceled = false;
   const observer = createObserver();
   const executor = createExecutor();
-  const model = createLocalModel();
+  const model = createLocalModel(modelName);
   const recent: ActionResult[] = [];
 
   emit({ kind: 'plan', goal });

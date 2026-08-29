@@ -31,6 +31,10 @@ Safety- and privacy-relevant changes are additionally logged in
   observation; `lib/agent` runs observe → decide → risk-gate → confirm → act → re-observe
   (cancelable, step-limited), streaming events to the panel. Side panel adds an Ask/Do mode
   toggle, a live action log, a confirmation card (Approve/Reject) for non-SAFE actions, and Stop.
+- **Settings & privacy panel:** typed `lib/settings` persisted in `chrome.storage`; a capture
+  on/off toggle and a sensitive-domain **blocklist that gates capture** (banking/webmail/health/
+  messaging/password-manager defaults), a local-model picker (used by ASK + the agent loop), and
+  a one-click **wipe all memory** (two-step confirm). Reachable via a gear in the side panel.
 - **Personal-Memory-RGB v0 benchmark:** synthetic-history generator (6 question classes),
   train/dev/test split by history, and an evaluation harness (refusal precision/recall/F1,
   decision accuracy, risk-coverage, abstention AUROC) with a BM25 + threshold-abstention

@@ -64,6 +64,16 @@ content is handled, permissions, data storage/egress, or confirmation/deferral b
   code execution. *Decision:* `activeTab` + narrowable host permissions; CSP forbids remote
   code; model weights are fetched by an explicit step and never committed.
 
+### Privacy controls (implemented)
+- **Blocklist-gated capture + master capture toggle** (`lib/settings`, enforced in
+  `background.captureActiveTab`). *Threat:* accidentally indexing sensitive pages (banking,
+  webmail, health, messaging, password managers), or capturing when the user doesn't want it.
+  *Mitigation:* capture is gated **before** anything is written — a conservative default
+  domain/path blocklist (user-editable) short-circuits indexing, and a master toggle disables
+  capture entirely. Blocked domains are refused even when capture is on.
+- **One-click memory wipe** (two-step confirm). *Threat:* no user recourse to purge the local
+  index. *Mitigation:* Settings → "Wipe all memory" clears the PGlite store immediately.
+
 ### Known open risks (tracked, not yet mitigated)
 - PGlite's use of direct `eval` vs the extension CSP (`wasm-unsafe-eval`) — verify on a
   Chrome load.
