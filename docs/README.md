@@ -10,6 +10,7 @@ This folder is the planning knowledge base for a final-year graduation project *
 
 ## Read in this order
 
+0. **[07 — Revised Plan (2026-09-06)](07_REVISED_PLAN_2026-09.md)** — **the current plan.** Supersedes the timelines, scope, and experiment matrix in 01/03/06 wherever they disagree: one fine-tuning track (QA refusal), unification tested as a transfer hypothesis, action track deferred, 16-week schedule to a January 2027 submission. *Read this before anything below.*
 1. **[00 — Master Vision & Knowledge](00_MASTER_Vision_and_Knowledge.md)** — the "why", the market reality, positioning, the unified **calibrated-grounding** thesis, novelty claims, glossary, and the open decisions. *Start here.*
 2. **[01 — Product Plan](01_PRODUCT_PLAN.md)** — personas, jobs-to-be-done, feature spec (MoSCoW), UX flows, roadmap, metrics, risks, go-to-market.
 3. **[02 — Technical Architecture](02_TECHNICAL_ARCHITECTURE.md)** — MV3 sense+act layer, local RAG memory, model serving, safety architecture, feasibility & MV3 constraints.
@@ -45,4 +46,4 @@ Defaults still standing (accept or correct): model count (shared base + 2 LoRA a
 - **[05 — Personal-Memory-RGB benchmark spec](05_BENCHMARK_Personal_Memory_RGB.md)** — the released research artifact.
 - **[06 — M1 build plan](06_M1_BUILD_PLAN.md)** — concrete engineering tickets to stand up the extension shell + local RAG memory + base-model baseline.
 
-*Status: planning complete; M1 + benchmark in progress. Last updated 2026-08-21.*
+*Status: M1 code complete but not yet run in Chrome; benchmark v0 validates the harness only. Plan revised 2026-09-06 under confirmed constraints (3–4 months, borrowed GPU laptop, Colab, small API budget, two teammates) — see [07](07_REVISED_PLAN_2026-09.md). Last updated 2026-09-06.*

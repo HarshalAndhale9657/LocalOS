@@ -31,13 +31,19 @@ content is handled, permissions, data storage/egress, or confirmation/deferral b
   prompt injection — page/source text hijacking the agent. *Mitigation:* all page-derived
   text and all retrieved history is wrapped/marked untrusted before reaching a model, plus a
   system-prompt instruction not to obey instructions found inside sources.
-- **Retrieved history treated as untrusted** (`lib/safety/guardRetrieved`). *Threat:*
-  **cross-session stored injection** — malicious text captured yesterday firing when recalled
-  today. *Mitigation (in progress):* retrieved chunks pass through the same untrusted-content
-  guard; full segregation of instruction-like retrieved text is tracked for a later milestone.
+- **Retrieved history treated as untrusted.** *Threat:* **cross-session stored injection** —
+  malicious text captured yesterday firing when recalled today. *Actual mitigation today:*
+  each retrieved chunk is wrapped by `spotlight()` inside the grounded-QA prompt, and the
+  system prompt says not to follow instructions in sources. **`guardRetrieved()` is currently
+  an identity function** (audit 2026-09-06); segregation of instruction-like retrieved text
+  is not implemented. Measured by the stored-injection probe split (docs/07 E7).
 - **DOM sanitization hook** (`lib/safety/sanitizeNodes`). *Threat:* hidden / off-screen /
-  freshly-injected elements and adversarial pop-ups. *Mitigation (scaffolded):* filter/flag
-  suspicious nodes; treat unexpected new UI as a deferral trigger (full scoring is a TODO).
+  freshly-injected elements and adversarial pop-ups. **Status: exists but is not called
+  anywhere** (audit 2026-09-06); the observation currently carries a `hidden` state flag only.
+- **Spotlighting is delimiter-only.** `spotlight()` wraps text in `<<UNTRUSTED_CONTENT>>`
+  markers. Microsoft's reported injection reduction (>50% → <2%) was for *datamarking and
+  encoding*; delimiting alone was the weakest variant in that study. We do **not** inherit
+  that number.
 
 ### Action safety
 - **Stale-snapshot guard** (`lib/act`). *Threat:* acting on an outdated observation (page

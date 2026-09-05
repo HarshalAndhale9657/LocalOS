@@ -121,7 +121,7 @@ A calibrated router decides per-step: **local** (default) vs **cloud planner** (
 ### 6.2 Safety architecture (defense-in-depth — never "solved")
 Layered, because adaptive attacks break any single defense:
 
-1. **Spotlighting** (datamarking/delimiting/encoding) — all page-derived text is marked *untrusted* before it reaches any model (cuts IPI >50% → <2% in Microsoft's study).
+1. **Spotlighting** (datamarking/delimiting/encoding) — all page-derived text is marked *untrusted* before it reaches any model. *Note (2026-09-06):* the implementation is **delimiting only**; Microsoft's large reduction was for datamarking/encoding, and delimiting was the weakest variant, so no reduction figure is claimed until datamarking is implemented and measured.
 2. **Instruction-hierarchy fine-tuning** — page text cannot override the user goal.
 3. **CaMeL-inspired privileged/quarantined split** — the on-device action model is the **quarantined executor** over untrusted DOM; the (optional) cloud planner is the **privileged orchestrator** that never sees raw untrusted content with tools.
 4. **DOM Sanitizer** — down-weights hidden/off-task/freshly-injected elements; treats unexpected new UI as a deferral trigger (defends the pop-up/adversarial-element attacks).

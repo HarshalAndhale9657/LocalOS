@@ -116,6 +116,27 @@
 
 ---
 
+## E2. Added 2026-09-06 — nearest neighbors the first pass missed (IDs verified against the arXiv API)
+
+These were surfaced by the 2026-09-06 audit ([07](07_REVISED_PLAN_2026-09.md) §13). Several earlier "no cited work does X" claims are **withdrawn** below and replaced with the narrower, defensible distinction.
+
+| Work | ID | Why it matters / what it changes |
+|---|---|---|
+| **LoCoMo** — Evaluating Very Long-Term Conversational Memory of LLM Agents | 2402.17753 | Personal long-term memory QA with temporal reasoning over *conversation* logs. **Closest neighbor to Personal-Memory-RGB.** Our distinction: browsing-*page* corpus (long noisy documents, near-duplicates, boilerplate), chunk-level citation targets, and real stale-vs-fresh pairs from revision history. |
+| **LongMemEval** | 2410.10813 | Long-term interactive memory benchmark with abstention-style and temporal items over chat history. Same distinction as above; we must report against its task taxonomy. |
+| **Synapse** — Trajectory-as-Exemplar Prompting with Memory | 2306.07863 | Retrieves past *trajectories* as exemplars for computer control. **Withdraws** our claim that no work couples a memory with an action model. Our (deferred) C3 differs only in retrieving *content* priors, not trajectories. |
+| **Agent Workflow Memory** | 2409.07429 | Induces reusable workflows from past experience for web agents. Same correction as Synapse. |
+| **Ask-before-Plan** | 2406.12639 | Agents that proactively ask clarifying questions before planning. Relevant prior for action deferral (deferred track); must be cited if deferral returns. |
+| **Tell Me More! (IN3)** | 2402.09205 | Benchmark + method for agents detecting vague instructions and asking. Same as above. |
+| **Greshake et al.** — Not what you've signed up for | 2302.12173 | Defined indirect prompt injection **including persistence via stored/retrieved content**. **Withdraws** "a threat no surveyed system defends against"; our stored-injection probe is the first *measurement in a personal browsing-memory setting*, not a new threat. |
+| **PoisonedRAG** | 2402.07867 | Knowledge-corruption attacks on RAG stores. Baseline threat model for our stored-injection split. |
+| **R-Tuning** | 2311.09677 | Refusal-aware instruction tuning ("I don't know"). Method ancestor for Track 2 alongside Trust-Align. |
+| **Conformal Language Modeling** | 2306.10193 | Conformal guarantees for LM generation. Method source for E2's conformal thresholding. |
+| **Conformal Factuality Guarantees** | 2402.10978 | Conformal calibration of factual claims. Same. |
+| **Know Your Limits** — abstention survey | 2407.18418 | Taxonomy of abstention in LLMs; frames our C2 signal study. |
+
+**Corrected gap statement.** No benchmark evaluates grounded QA with calibrated refusal over *timestamped personal browsing pages* with *real* staleness (LoCoMo/LongMemEval are conversational; RGB/CRAG/AbstentionBench are generic corpora), and no study compares abstention signals for *small on-device* models in that setting. That is the claim; nothing broader.
+
 ## F. The inspiration project (for honest positioning)
 
 - **Second Brain** (repo `secondbrain.md` + PDF): passive local RAG-over-history extension; small model SFT+DPO for grounded QA + calibrated refusal; WXT, transformers.js (all-MiniLM-L6-v2), PGlite+pgvector, SimHash, hybrid retrieval. **We cite it as the memory-subsystem inspiration and differentiate:** Groundwork adds **active agentic control**, a **second fine-tuning track (action grounding)**, the **unified calibrated-grounding** framing, **rigorous evaluation** (citation P/R, risk-coverage curves, DPO ablations, multi-run variance), and a **released benchmark** — none of which a passive hobby project provides.

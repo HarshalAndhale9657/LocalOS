@@ -1,6 +1,6 @@
 {
   "name": "groundwork",
-  "description": "Groundwork — private, local-first agentic browser assistant",
+  "description": "Groundwork \u2014 private, local-first agentic browser assistant",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,7 +13,8 @@
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
     "fetch-model": "node scripts/fetch-model.mjs",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "test": "vitest run"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.6",
@@ -28,6 +29,7 @@
     "@types/react-dom": "^19.2.3",
     "@wxt-dev/module-react": "^1.1.5",
     "typescript": "^5.9.3",
+    "vitest": "^5.0.0",
     "web-ext": "^10.5.0",
     "wxt": "^0.21.3"
   }

@@ -1,0 +1,10 @@
+GOAL: {goal}
+URL: {url}
+
+ELEMENTS:
+<<UNTRUSTED_CONTENT>>
+{elements}
+<<END_UNTRUSTED_CONTENT>>
+
+RECENT ACTIONS:
+{recent}

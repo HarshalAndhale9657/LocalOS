@@ -81,10 +81,10 @@ export default function SettingsView({ onClose }: { onClose: () => void }) {
           className="gw-set-input"
           value={settings.model}
           onChange={(e) => patch({ model: e.target.value })}
-          placeholder="qwen2.5:7b-instruct"
+          placeholder="qwen2.5:3b-instruct"
           spellCheck={false}
         />
-        <p className="gw-set-hint">Must be pulled in Ollama (e.g. <code>ollama pull qwen2.5:7b-instruct</code>).</p>
+        <p className="gw-set-hint">Must be pulled in Ollama (e.g. <code>ollama pull qwen2.5:3b-instruct</code>).</p>
       </section>
 
       <section className="gw-set-section">

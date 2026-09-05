@@ -1,0 +1,88 @@
+# Seed list of Wikipedia articles with frequently-updated, explicitly dated facts.
+# Used by: python -m pmrgb.revisions --titles-file sources/titles_v1_seed.txt --out data/revisions
+# Categories chosen so stale/fresh pairs span personas (researcher, cyclist, cook, investor, astronomer...).
+# --- cities (population, rankings, transit ridership)
+Mumbai
+Delhi
+Tokyo
+London
+New York City
+Bengaluru
+Lagos
+São Paulo
+Jakarta
+Toronto
+# --- countries (GDP, population, HDI)
+India
+Nigeria
+Indonesia
+Brazil
+Germany
+Japan
+Vietnam
+Ethiopia
+# --- companies (employees, revenue, stores, market share)
+Tesla, Inc.
+Apple Inc.
+Microsoft
+Nvidia
+Toyota
+Samsung Electronics
+Reliance Industries
+Infosys
+Zomato
+Spotify
+# --- technology / software (versions, users, release dates)
+Python (programming language)
+Linux kernel
+Android (operating system)
+Firefox
+Chromium (web browser)
+Rust (programming language)
+PostgreSQL
+Wikipedia
+Bitcoin
+Ethereum
+# --- AI / ML (models, parameters, benchmarks)
+OpenAI
+Large language model
+GPT-4
+Llama (language model)
+Hugging Face
+Stable Diffusion
+# --- space / astronomy (missions, counts, records)
+International Space Station
+James Webb Space Telescope
+SpaceX Starship
+Artemis program
+Exoplanet
+Chandrayaan-3
+# --- sport (records, titles, appearances)
+Cristiano Ronaldo
+Lionel Messi
+Virat Kohli
+Tour de France
+Indian Premier League
+Chess World Championship
+Novak Djokovic
+# --- infrastructure / geography (tallest, longest, deaths, visitors)
+Mount Everest
+Burj Khalifa
+Delhi Metro
+Golden Gate Bridge
+Great Barrier Reef
+World population
+List of countries by population (United Nations)
+# --- health / science (cases, approvals, counts)
+COVID-19 pandemic
+Malaria
+CRISPR gene editing
+Human Genome Project
+# --- consumer (cycling, cooking, finance) for the persona mix
+Shimano
+Bicycle
+Instant Pot
+KitchenAid
+Vanguard Group
+Index fund
+Nifty 50

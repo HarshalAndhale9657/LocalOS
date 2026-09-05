@@ -29,7 +29,7 @@ export const DEFAULT_BLOCKLIST: string[] = [
   '/login', '/signin', '/sign-in', '/password', '/oauth', '/checkout', '/payment', '/billing', '/admin',
 ];
 
-export const DEFAULT_MODEL = 'qwen2.5:7b-instruct';
+export const DEFAULT_MODEL = 'qwen2.5:3b-instruct';
 
 export const DEFAULT_SETTINGS: Settings = {
   captureEnabled: true,

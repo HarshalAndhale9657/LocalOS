@@ -10,6 +10,23 @@ Safety- and privacy-relevant changes are additionally logged in
 ## [Unreleased]
 
 ### Added
+- **Revised plan (`docs/07`)** under confirmed constraints (3–4 months, borrowed GPU laptop, Colab,
+  small API budget, two teammates): one fine-tuning track (QA refusal), unification tested as a
+  transfer hypothesis, action track deferred; consented on-device student evaluation (E9b).
+- **Shared core:** prompts live once in `shared/prompts/` and are loaded verbatim by the extension
+  (`lib/model/core.ts`, Vite `?raw`) and the benchmark (`pmrgb/core.py`); refusal/citation parsing
+  is checked in both languages against `shared/tests/refusal_cases.json` (vitest + unittest, in CI).
+- **Model harness** `benchmark/eval/run_model.py`: retrieval → shared prompt → Ollama → shared
+  parser, with auditable per-item predictions (M1.6 plumbing).
+- **Wikipedia revision miner** `benchmark/pmrgb/revisions.py`: real stale-vs-fresh fact pairs from
+  article revision history (v1 staleness source) + `benchmark/sources/titles_v1_seed.txt`.
+
+### Changed
+- Default local model is now `qwen2.5:3b-instruct` (3B primary per docs/07 §5).
+- Docs corrected where they overstated the code (safety changelog, spotlighting figure, v0 benchmark
+  narrative); 12 nearest-neighbor papers added to `docs/04` with verified arXiv IDs.
+
+### Added (M1)
 - **Planning knowledge base** (`docs/00`–`docs/06`): vision, product plan, technical
   architecture, research-paper plan, related-work bibliography, the Personal-Memory-RGB
   benchmark spec, and the M1 build plan.

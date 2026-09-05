@@ -1,0 +1,22 @@
+{
+  "_doc": "Shared behaviour vectors for the refusal parser and citation extractor. is_refusal follows the strict rule: the refusal string (period optional, case-insensitive) with at most 7 extra characters; a refusal followed by more text is NOT a refusal (the model committed to content).",
+  "refusal": [
+    {"text": "Not found in your history.", "is_refusal": true},
+    {"text": "Not found in your history", "is_refusal": true},
+    {"text": "  Not found in your history.  ", "is_refusal": true},
+    {"text": "not found in your history.", "is_refusal": true},
+    {"text": "\"Not found in your history.\"", "is_refusal": true},
+    {"text": "Not found in your history. However, the QLoRA page says peak VRAM was 7 GB [1].", "is_refusal": false},
+    {"text": "The peak VRAM was about 7 GB [1].", "is_refusal": false},
+    {"text": "I could not find this in the sources, sorry.", "is_refusal": false},
+    {"text": "", "is_refusal": false}
+  ],
+  "citations": [
+    {"text": "Peak VRAM was 7 GB [1].", "cited": [1]},
+    {"text": "A [1] and B [2][3].", "cited": [1, 2, 3]},
+    {"text": "Repeated [1] then [1] again.", "cited": [1]},
+    {"text": "Double digits [12] and [3].", "cited": [12, 3]},
+    {"text": "No citations here.", "cited": []},
+    {"text": "Not a citation [a] or [ 1 ].", "cited": []}
+  ]
+}
