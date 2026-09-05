@@ -21,6 +21,14 @@ Safety- and privacy-relevant changes are additionally logged in
 - **Wikipedia revision miner** `benchmark/pmrgb/revisions.py`: real stale-vs-fresh fact pairs from
   article revision history (v1 staleness source) + `benchmark/sources/titles_v1_seed.txt`.
 
+- **End-to-end runtime smoke test** `extension/e2e/smoke.mjs` (`npm run e2e`): real Chrome via the
+  DevTools pipe (`installExtension`), fixture article, side-panel messages; 10/10 passing.
+
+### Fixed
+- **Offline embeddings actually offline:** onnxruntime-web fetched its WASM engine from a CDN and
+  failed under the extension CSP ("no available backend found"). `npm run fetch-model` now bundles
+  the engine into `public/ort/` and `lib/memory/embed.ts` loads it from the extension origin.
+
 ### Changed
 - Default local model is now `qwen2.5:3b-instruct` (3B primary per docs/07 §5).
 - Docs corrected where they overstated the code (safety changelog, spotlighting figure, v0 benchmark

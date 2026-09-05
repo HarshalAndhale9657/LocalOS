@@ -13,11 +13,25 @@ export const EMBED_DIM = 384;
 // `node scripts/fetch-model.mjs`. See docs/02 §4.
 env.allowRemoteModels = false;
 env.allowLocalModels = true;
-try {
-  // offscreen doc has chrome.runtime — resolve the packaged models dir absolutely
-  env.localModelPath = (globalThis as any).chrome?.runtime?.getURL?.('models/') ?? 'models/';
-} catch {
-  env.localModelPath = 'models/';
+const extUrl = (p: string): string => {
+  try {
+    return (globalThis as any).chrome?.runtime?.getURL?.(p) ?? p;
+  } catch {
+    return p;
+  }
+};
+// offscreen doc has chrome.runtime — resolve the packaged models dir absolutely
+env.localModelPath = extUrl('models/');
+// The ONNX runtime's WASM engine must ALSO come from the bundle: by default onnxruntime-web
+// dynamically imports it from a CDN, which the extension CSP blocks ("no available backend
+// found" — caught by e2e/smoke.mjs on 2026-09-06). `npm run fetch-model` copies the engine
+// files into public/ort/. Single-threaded: the offscreen document is not cross-origin
+// isolated, so SharedArrayBuffer (needed for threads) is unavailable.
+const onnx = (env.backends as any)?.onnx;
+if (onnx?.wasm) {
+  onnx.wasm.wasmPaths = extUrl('ort/');
+  onnx.wasm.numThreads = 1;
+  onnx.wasm.proxy = false;
 }
 
 type Extractor = Awaited<ReturnType<typeof pipeline>>;

@@ -80,9 +80,17 @@ content is handled, permissions, data storage/egress, or confirmation/deferral b
 - **One-click memory wipe** (two-step confirm). *Threat:* no user recourse to purge the local
   index. *Mitigation:* Settings → "Wipe all memory" clears the PGlite store immediately.
 
+### Resolved 2026-09-06 (verified in a real Chrome by `extension/e2e/smoke.mjs`)
+- ~~PGlite's use of direct `eval` vs the extension CSP~~ — **works** under
+  `script-src 'self' 'wasm-unsafe-eval'`: pages are stored and retrieved in the offscreen document.
+- ~~ONNX-runtime WASM offline hosting~~ — **was broken**: onnxruntime-web dynamically imported its
+  engine from a CDN (blocked by the CSP → "no available backend found"). *Mitigation:* the engine is
+  now copied into `public/ort/` by `npm run fetch-model` and loaded from the extension origin; no
+  network request is made at embedding time. *Threat closed:* embedding-time egress.
+
 ### Known open risks (tracked, not yet mitigated)
-- PGlite's use of direct `eval` vs the extension CSP (`wasm-unsafe-eval`) — verify on a
-  Chrome load.
-- ONNX-runtime WASM offline hosting — confirm it loads from the bundled asset, not a CDN.
+- **Retrieval rejection threshold is uncalibrated.** `NEG_REJECT = 0.25` cosine never fires with
+  bge-small (an unrelated query scored 0.47), so "Not found in your history" currently depends
+  entirely on the model's prompted refusal. To be calibrated in docs/07 E1/E2.
 - Robustness under **adaptive** injection attacks — to be evaluated with AgentDojo / WASP /
   ST-WebAgentBench-style suites (see [`docs/03`](docs/03_RESEARCH_PAPER_PLAN.md), E5/E6).

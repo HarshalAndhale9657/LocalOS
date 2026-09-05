@@ -25,3 +25,6 @@ extension/public/models/
 Thumbs.db
 .idea/
 .vscode/
+
+# ONNX runtime WASM engine copied by `npm run fetch-model` (see extension/scripts/fetch-model.mjs)
+extension/public/ort/
