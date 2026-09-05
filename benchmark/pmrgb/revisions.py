@@ -146,6 +146,24 @@ class _ParaExtractor(HTMLParser):
             self._buf.append(data)
 
 
+def fetch_revision_at(title: str, when: str) -> dict | None:
+    """The last revision of `title` at or before ISO date `when` ({revid, timestamp, size}).
+
+    Used by the v1 corpus builder: every article is snapshotted at one fixed "read" date and one
+    fixed "now" date, so all histories share a coherent timeline (docs/07 §4.2).
+    """
+    params = {
+        "action": "query", "prop": "revisions", "titles": title, "format": "json",
+        "formatversion": "2", "rvprop": "ids|timestamp|size", "rvlimit": "1",
+        "rvdir": "older", "rvstart": f"{when}T23:59:59Z",
+    }
+    data = json.loads(_cached_get(API + "?" + urllib.parse.urlencode(params)))
+    pages = data.get("query", {}).get("pages", [])
+    if not pages or "missing" in pages[0] or not pages[0].get("revisions"):
+        return None
+    return pages[0]["revisions"][0]
+
+
 def fetch_plaintext(title: str, revid: int) -> list[str]:
     """Body paragraphs of a specific revision (rendered HTML → text)."""
     url = REST_HTML.format(title=urllib.parse.quote(title.replace(" ", "_"), safe=""), revid=revid)
@@ -192,9 +210,66 @@ def is_dated(s: str) -> bool:
     return bool(_DATED.search(s))
 
 
+_CURRENCY_ANCHOR = re.compile(r"\b(as of|as at|to date|currently|since)\b", re.I)
+
+
+def is_currency_claim(s: str) -> bool:
+    """True for sentences that assert a CURRENT state ("As of May 2024, 340 people have died"),
+    as opposed to describing a past event ("In 1975, the polka-dot jersey was introduced").
+
+    Only current-state sentences make meaningful `time_sensitive_fresh` controls: a historical
+    event that never changes is not evidence that the assistant tracked freshness correctly.
+    """
+    return bool(_CURRENCY_ANCHOR.search(s)) and bool(_DATED.search(s))
+
+
 def unit_conversion_only(old: str, new: str) -> bool:
     """True if old and new are identical once parenthesised spans are removed (unit re-rounding)."""
     return _PAREN.sub("", old).strip() == _PAREN.sub("", new).strip() and old != new
+
+
+_MONTHS = {m: i for i, m in enumerate(
+    ["january", "february", "march", "april", "may", "june", "july", "august",
+     "september", "october", "november", "december"], 1)}
+_ANCHOR = re.compile(
+    r"\b(?:as of|in|since|by|until|during|through)\s+(?:the\s+)?"
+    r"(?:(january|february|march|april|may|june|july|august|september|october|november|december)\s+)?"
+    r"(\d{4})\b", re.I)
+
+
+def time_anchor(s: str):
+    """The sentence's leading time reference as a sortable (year, month) tuple, or None.
+
+    "As of November 2022, 310 people have died" -> (2022, 11);  "In 2023, ..." -> (2023, 0).
+    """
+    m = _ANCHOR.search(s)
+    if not m:
+        return None
+    month = _MONTHS.get((m.group(1) or "").lower(), 0)
+    return (int(m.group(2)), month, m.span())
+
+
+def classify_change(old: str, new: str) -> str:
+    """Distinguish genuine staleness from a source correction. Returns stale|correction|reject.
+
+    The distinguishing signal is whether the sentence's OWN time anchor moves forward:
+      stale       "In 2023, ... 19.9% share"      -> "In 2024, ... 17.6% share"   (world advanced)
+      correction  "In February 2004, ... $100m"   -> "In February 2004, ... $176m" (article was wrong)
+      reject      anchor moves backward, is absent, or only the anchor itself changed
+    Only `stale` items get a must-abstain gold label; corrections are a different phenomenon and
+    are kept out of the class rather than silently mislabeled (docs/07 §4.2).
+    """
+    a_old, a_new = time_anchor(old), time_anchor(new)
+    if not a_old or not a_new:
+        return "reject"
+    if a_new[:2] < a_old[:2]:
+        return "reject"
+    # compare the numbers OUTSIDE the anchor span, so a bare year bump isn't mistaken for a fact change
+    rest_old = (old[: a_old[2][0]] + old[a_old[2][1]:])
+    rest_new = (new[: a_new[2][0]] + new[a_new[2][1]:])
+    if not numbers_really_changed(_nums(rest_old), _nums(rest_new)):
+        return "reject"
+    return "stale" if a_new[:2] > a_old[:2] else "correction"
 
 
 def numbers_really_changed(old_nums: list[str], new_nums: list[str]) -> bool:

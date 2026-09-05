@@ -1,0 +1,77 @@
+{
+  "_doc": "Personas for Personal-Memory-RGB v1 histories. Each persona has topic pools of English Wikipedia article titles; the assembler samples a reading trajectory across a persona's pools (plus a little off-topic noise from other personas). Titles that fail to resolve are skipped and logged. Extend freely; keep articles that have dated, numeric facts so revision mining yields stale/fresh pairs.",
+  "personas": [
+    {
+      "id": "ml_grad_student",
+      "description": "ML/NLP graduate student; also follows space news and cycling",
+      "pools": {
+        "ml": ["Large language model", "Transformer (deep learning architecture)", "GPT-4", "Llama (language model)", "Hugging Face", "Stable Diffusion", "OpenAI", "DeepMind", "Reinforcement learning from human feedback", "Retrieval-augmented generation", "Low-rank adaptation", "Mixture of experts", "Nvidia", "TPU", "PyTorch"],
+        "space": ["James Webb Space Telescope", "International Space Station", "SpaceX Starship", "Artemis program", "Chandrayaan-3", "Exoplanet", "Voyager 1", "Mars sample-return mission"],
+        "cycling": ["Tour de France", "Shimano", "Bicycle", "Tadej Pogačar", "Giro d'Italia"]
+      }
+    },
+    {
+      "id": "equity_analyst",
+      "description": "Equity analyst in Mumbai; reads company pages, index funds, macro",
+      "pools": {
+        "companies": ["Tesla, Inc.", "Apple Inc.", "Microsoft", "Nvidia", "Toyota", "Samsung Electronics", "Reliance Industries", "Infosys", "Tata Consultancy Services", "HDFC Bank", "Zomato", "Spotify", "Netflix", "Amazon (company)", "Alphabet Inc."],
+        "markets": ["Index fund", "Vanguard Group", "NIFTY 50", "BSE SENSEX", "S&P 500", "Exchange-traded fund", "Bitcoin", "Ethereum"],
+        "macro": ["Economy of India", "Reserve Bank of India", "Inflation", "Federal Reserve", "Gross domestic product"]
+      }
+    },
+    {
+      "id": "urban_planner",
+      "description": "Urban planner; cities, transit, demographics, infrastructure",
+      "pools": {
+        "cities": ["Mumbai", "Delhi", "Tokyo", "London", "New York City", "Bengaluru", "Lagos", "São Paulo", "Jakarta", "Toronto", "Shanghai", "Cairo"],
+        "transit": ["Delhi Metro", "Mumbai Suburban Railway", "London Underground", "Shinkansen", "High-speed rail in China", "Golden Gate Bridge"],
+        "demographics": ["World population", "List of countries by population (United Nations)", "Urbanization", "Megacity"]
+      }
+    },
+    {
+      "id": "sports_journalist",
+      "description": "Sports journalist; football, cricket, tennis, cycling records",
+      "pools": {
+        "football": ["Cristiano Ronaldo", "Lionel Messi", "Kylian Mbappé", "FIFA World Cup", "UEFA Champions League", "Premier League", "Real Madrid CF"],
+        "cricket": ["Virat Kohli", "Indian Premier League", "Cricket World Cup", "Sachin Tendulkar", "Rohit Sharma", "Test cricket"],
+        "tennis_chess": ["Novak Djokovic", "Carlos Alcaraz", "Iga Świątek", "World Chess Championship", "Magnus Carlsen"]
+      }
+    },
+    {
+      "id": "science_teacher",
+      "description": "High-school science teacher; astronomy, geography records, health",
+      "pools": {
+        "astronomy": ["Mount Everest", "Solar System", "Jupiter", "Betelgeuse", "Hubble Space Telescope", "Black hole", "Exoplanet"],
+        "geography": ["Great Barrier Reef", "Amazon rainforest", "Sahara", "Antarctica", "Burj Khalifa", "Nile", "Pacific Ocean"],
+        "health": ["COVID-19 pandemic", "Malaria", "Tuberculosis", "Vaccine", "World Health Organization", "Diabetes"]
+      }
+    },
+    {
+      "id": "software_engineer",
+      "description": "Backend engineer; languages, databases, open-source, browsers",
+      "pools": {
+        "languages": ["Python (programming language)", "Rust (programming language)", "Go (programming language)", "TypeScript", "Java (programming language)", "Kotlin (programming language)"],
+        "systems": ["Linux kernel", "PostgreSQL", "SQLite", "Redis", "Kubernetes", "Docker (software)", "Git"],
+        "web": ["Android (operating system)", "Firefox", "Chromium (web browser)", "Google Chrome", "Wikipedia", "WebAssembly", "Node.js"]
+      }
+    },
+    {
+      "id": "home_cook_gardener",
+      "description": "Home cook and gardener; appliances, ingredients, plants, nutrition",
+      "pools": {
+        "kitchen": ["Instant Pot", "KitchenAid", "Sourdough", "Olive oil", "Rice", "Tea", "Coffee", "Chocolate"],
+        "garden": ["Tomato", "Basil", "Compost", "Monstera deliciosa", "Bee", "Honey"],
+        "nutrition": ["Vitamin D", "Dietary fiber", "Protein (nutrient)", "Mediterranean diet"]
+      }
+    },
+    {
+      "id": "history_buff_traveler",
+      "description": "History reader and traveler; landmarks, countries, museums, aviation",
+      "pools": {
+        "landmarks": ["Taj Mahal", "Great Wall of China", "Colosseum", "Machu Picchu", "Eiffel Tower", "Angkor Wat", "Petra"],
+        "countries": ["India", "Japan", "Germany", "Brazil", "Indonesia", "Vietnam", "Ethiopia", "Nigeria", "Portugal"],
+        "travel": ["Louvre", "British Museum", "Indira Gandhi International Airport", "Airbus A350", "Boeing 787 Dreamliner", "Emirates (airline)", "Indian Railways"]
+      }
+    }
+  ]
+}

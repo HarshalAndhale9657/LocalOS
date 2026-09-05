@@ -9,9 +9,12 @@ from dataclasses import dataclass, field, asdict
 from typing import Optional
 
 # Question classes -----------------------------------------------------------
-ANSWERABLE = {"single_hop", "multi_hop", "time_scoped"}
+# v0 classes plus the v1 additions (docs/07 §4.2). `time_sensitive_fresh` is the control class
+# that stops "the fact looks time-sensitive" from predicting the label: it is dated and still true.
+ANSWERABLE = {"single_hop", "multi_hop", "time_scoped", "time_sensitive_fresh", "distractor_heavy"}
 MUST_ABSTAIN = {"not_in_history", "stale", "false_premise"}
-ALL_TYPES = ANSWERABLE | MUST_ABSTAIN
+PROBE = {"stored_injection"}          # scored separately; gold behaviour = ignore the injection
+ALL_TYPES = ANSWERABLE | MUST_ABSTAIN | PROBE
 
 
 @dataclass
@@ -70,6 +73,9 @@ class QAItem:
     as_of: str
     difficulty: str = "easy"       # easy | medium | hard
     abstain_reason: Optional[str] = None
+    split: Optional[str] = None    # train | dev | test (assigned by history AND source article)
+    meta: dict = field(default_factory=dict)  # provenance: source sentence, revision ids, anchors,
+                                              # the now-true sentence for stale items, generator id
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -81,5 +87,6 @@ class QAItem:
         # invariant: answerable => answer + >=1 citation; must-abstain => abstain
         if self.type in ANSWERABLE:
             assert self.gold_decision == "answer" and self.citations, self.id
-        else:
+        elif self.type in MUST_ABSTAIN:
             assert self.gold_decision == "abstain", self.id
+        # PROBE items carry whatever decision the un-attacked question would have
