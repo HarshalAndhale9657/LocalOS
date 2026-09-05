@@ -319,3 +319,64 @@ Still unknown, planned around: the borrowed laptop's VRAM (3B training runs ther
 
 
 **Next (week 1–2):** owner loads the extension in Chrome for day-to-day dogfooding (runtime is verified) (PGlite `eval`/CSP, ONNX offline, capture → ask on a real page); full v0 test-split run for the plumbing baseline; extend the title list and run the miner at scale; start the v1 history assembler and teacher-generation pipeline; Teammate B starts annotation guidelines; ask the mentor about ethics approval for E9b.
+
+---
+
+## 18. State at pause — 2026-09-06, and how to resume
+
+**Everything below is committed and pushed on branch `plan-2026-09`.** Nothing is running; the
+article-pool build was stopped deliberately. No work is lost: every Wikipedia response is cached
+under `benchmark/data/cache/wiki/` (1,323 files), so re-running only refetches what is missing.
+
+### Where the pieces stand
+
+| Piece | State |
+|---|---|
+| Extension runtime | **Verified**, 10/10 in a real Chrome (`cd extension && npm run e2e`) |
+| Shared prompt core | **Done**; extension and harness provably identical (tests in CI) |
+| Model harness | **Done** (`eval/run_model.py`); v0 plumbing baseline recorded in §17 |
+| Article pool | **Partial: 159 snapshots / 155 of 175 titles**, read date `2024-02-01` only |
+| Pool labels | ⚠️ **Mixed rules — must relabel before use** (see step 1) |
+| Generator | **Done and inspected** (`pmrgb/generate_v1.py`); no full dataset generated yet |
+| Teacher | Local 3B via Ollama, free; a stronger teacher is a two-env-var swap |
+| Benchmark v1 dataset | **Not yet generated** |
+
+### Resume in this order
+
+1. **Relabel the pool (required, no network, ~15–20 min).** The build ran with the pre-fix
+   labeling rules the whole time, so its `fresh_facts` (2,117) still include historical events
+   that can never go stale. Everything is cached, so this only re-parses:
+   ```bash
+   cd benchmark && python -m pmrgb.corpus --personas sources/personas_v1.json --out data/v1 --refresh
+   ```
+   Never run two pool commands at once — they write the same file.
+2. **Finish the pool.** The same command continues the missing 20 titles and the whole second read
+   date (`2025-03-01`, ~175 snapshots, ~1 h). Run it in the background.
+3. **Measure the real stale yield** (`--stats`). At pause it was 33 stale facts over 159 snapshots
+   (~0.21/snapshot), which extrapolates to ~90 stale items — short of target. Decide then between:
+   a third read date, more high-churn titles (sports records, company statistics, city
+   populations), or accepting `changed_fuzzy` candidates that pass human review.
+4. **Generate the first full dataset** and read a sample by hand before trusting any of it:
+   ```bash
+   python -m pmrgb.generate_v1 --pool data/v1 --out data/v1 --histories 40 --seed 7
+   ```
+5. **Then** the NLI verification gate, and hand the human-verification pass to Teammate B.
+
+### Environment notes
+
+- **Ollama** must be running for the harness, the extension and the teacher:
+  `%LOCALAPPDATA%\Programs\Ollama\ollama.exe serve`. `OLLAMA_ORIGINS=chrome-extension://*` is
+  already persisted for this user, so a normal app launch is fine. Model pulled: `qwen2.5:3b-instruct`.
+- **The extension build in Chrome predates the ONNX fix** — press Reload on the Groundwork card in
+  `chrome://extensions` before using it, or re-run `npm run build`.
+- This dev laptop has **no GPU**; a grounded answer takes ~12 s on CPU. Training and the on-device
+  measurements both need the borrowed machine.
+
+### Decisions still owed by the owner
+
+1. Ask the mentor whether **university ethics approval** is required for E9b (the consented
+   student evaluation) — this has a long lead time and gates weeks 6–12.
+2. Confirm **IEEE Access** as the archival target.
+3. The borrowed laptop's **GPU model and VRAM** (decides whether 3B trains locally or on Colab).
+4. Which **free teacher tier** is available (Groq / Gemini / other), to replace the local 3B for
+   question generation.
