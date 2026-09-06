@@ -4,10 +4,10 @@
 > in [`07`](07_REVISED_PLAN_2026-09.md) (16 weeks, one fine-tuning track, calibrated refusal over
 > personal browsing memory).
 >
-> **Every arXiv ID below was checked against the live arXiv API on 2026-09-06** — titles and years
-> are real. Books, courses and blogs are given as **channel + exact title** rather than URLs,
-> because a guessed URL is worse than none; search the title and you will land on it. Domains are
-> given only where they are stable and I am certain of them.
+> **Nothing here is guessed.** All 47 arXiv IDs were checked against the live arXiv API, every
+> other URL was fetched and returned HTTP 200, and every YouTube ID came from live search results
+> with its real channel shown — all on 2026-09-06. **All links are collected in [§11](#11-verified-links).**
+> Sections 1–10 name resources by title; §11 gives the URL for each.
 
 ---
 
@@ -340,6 +340,202 @@ cannot write it, you cannot say it under pressure.
 
 **Do not read ahead of the build.** A paper read three weeks before you need it is a paper you
 will read twice.
+
+---
+
+---
+
+## 11. Verified links
+
+> **Every link below was fetched and returned HTTP 200 on 2026-09-06**, and every YouTube video ID
+> was taken from live search results with its real channel name shown, not guessed. If one dies
+> later, search the title — they are all canonical enough to survive a move.
+
+### 11.1 Videos
+
+**Foundations**
+
+| Video | Channel | Link |
+|---|---|---|
+| [1hr Talk] Intro to Large Language Models | Andrej Karpathy | https://www.youtube.com/watch?v=zjkBMFhNj_g |
+| Deep Dive into LLMs like ChatGPT | Andrej Karpathy | https://www.youtube.com/watch?v=7xTGNNLPyMI |
+| Let's build GPT: from scratch, in code, spelled out | Andrej Karpathy | https://www.youtube.com/watch?v=kCc8FmEb1nY |
+| Let's build the GPT Tokenizer | Andrej Karpathy | https://www.youtube.com/watch?v=zduSFxRajkE |
+| Let's reproduce GPT-2 (124M) | Andrej Karpathy | https://www.youtube.com/watch?v=l8pRSuU81PU |
+| Transformers, the tech behind LLMs (Ch. 5) | 3Blue1Brown | https://www.youtube.com/watch?v=wjZofJX0v4M |
+| Attention in transformers, step-by-step (Ch. 6) | 3Blue1Brown | https://www.youtube.com/watch?v=eMlx5fFNoYc |
+| Visualizing transformers and attention (TNG talk) | Grant Sanderson | https://www.youtube.com/watch?v=KJtZARuO3JY |
+
+**Courses**
+
+| Video | Channel | Link |
+|---|---|---|
+| CS224N: NLP with Deep Learning, Spring 2024, Lecture 1 | Stanford Online | https://www.youtube.com/watch?v=DzpHeXVSC5I |
+| CS336: Language Modeling from Scratch, Spring 2025, Lecture 1 | Stanford Online | https://www.youtube.com/watch?v=SQ3fZ1sAqXI |
+| CS336: Language Modeling from Scratch, Spring 2026, Lecture 1 | Stanford Online | https://www.youtube.com/watch?v=JuoVZkPBiKk |
+
+**Your core methods**
+
+| Video | Channel | Link |
+|---|---|---|
+| A Tutorial on Conformal Prediction | Anastasios Angelopoulos (the author) | https://www.youtube.com/watch?v=nql000Lu_iE |
+| What is Low-Rank Adaptation (LoRA) — explained by the inventor | Edward Hu | https://www.youtube.com/watch?v=DhRoTONcyZE |
+| What is LoRA? Low-Rank Adaptation for finetuning LLMs EXPLAINED | AI Coffee Break with Letitia | https://www.youtube.com/watch?v=KEv-F5UkhxU |
+| Direct Preference Optimization: Your LM is Secretly a Reward Model | AI Coffee Break with Letitia | https://www.youtube.com/watch?v=XZLc09hkMwA |
+| Direct Preference Optimization (DPO) — Paper Explained | Outlier | https://www.youtube.com/watch?v=TfybkCFQufc |
+
+Channels worth subscribing to: https://www.youtube.com/@AndrejKarpathy ·
+https://www.youtube.com/@3blue1brown · https://www.youtube.com/@stanfordonline
+
+### 11.2 Courses, documentation, books
+
+| Resource | Link |
+|---|---|
+| Hugging Face LLM Course (absorbed the old NLP Course) | https://huggingface.co/learn/llm-course |
+| Hugging Face TRL docs (SFT, DPO, KTO trainers — you will use these) | https://huggingface.co/docs/trl |
+| Hugging Face PEFT docs (LoRA/QLoRA) | https://huggingface.co/docs/peft |
+| Hugging Face alignment-handbook (reference SFT→DPO recipes) | https://github.com/huggingface/alignment-handbook |
+| Unsloth (fast QLoRA on one GPU) | https://github.com/unslothai/unsloth · https://unsloth.ai/docs |
+| Jurafsky & Martin, *Speech and Language Processing*, 3rd ed. (free) | https://web.stanford.edu/~jurafsky/slp3/ |
+| Nathan Lambert, *The RLHF Book* (free, best DPO explainer) | https://rlhfbook.com |
+| Raschka, *Build a Large Language Model (From Scratch)* — code | https://github.com/rasbt/LLMs-from-scratch |
+| Stanford CS224N course page | https://web.stanford.edu/class/cs224n/ |
+| Stanford CS336 course page | http://cs336.stanford.edu/spring2025/ |
+| DeepLearning.AI short courses | https://www.deeplearning.ai/courses |
+| Chrome extension (MV3) documentation | https://developer.chrome.com/docs/extensions |
+| Keshav, *How to Read a Paper* (1 page — read this first) | https://web.stanford.edu/class/ee384m/Handouts/HowtoReadPaper.pdf |
+
+### 11.3 Blogs and explainers
+
+| Resource | Link |
+|---|---|
+| Jay Alammar — The Illustrated Transformer | https://jalammar.github.io/illustrated-transformer/ |
+| Lilian Weng — Extrinsic Hallucinations in LLMs (survey-grade) | https://lilianweng.github.io/posts/2024-07-07-hallucination/ |
+| Lilian Weng — blog index | https://lilianweng.github.io/ |
+| Sebastian Raschka — Ahead of AI | https://magazine.sebastianraschka.com/ |
+| Sebastian Raschka — blog (LoRA/DPO applied articles) | https://sebastianraschka.com/blog/ |
+| Maarten Grootendorst — A Visual Guide to Quantization | https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-quantization |
+| Simon Willison — prompt-injection tag (the running record) | https://simonwillison.net/tags/prompt-injection/ |
+| Eugene Yan — applied ML and evals | https://eugeneyan.com/ |
+| Chip Huyen | https://huyenchip.com/ |
+| Awesome Conformal Prediction (curated index) | https://github.com/valeman/awesome-conformal-prediction |
+
+### 11.4 Tools
+
+| Tool | Link |
+|---|---|
+| Google Colab (training) | https://colab.research.google.com/ |
+| Kaggle notebooks (free GPU overflow) | https://www.kaggle.com/code |
+| Zotero (set this up in week 1) | https://www.zotero.org/ |
+| Semantic Scholar (citation graph) | https://www.semanticscholar.org/ |
+| Connected Papers (visual related-work maps) | https://www.connectedpapers.com/ |
+| ACL Anthology | https://aclanthology.org/ |
+| RAGAS docs | https://docs.ragas.io/ |
+| Qwen2.5-3B-Instruct (weights) | https://huggingface.co/Qwen/Qwen2.5-3B-Instruct |
+| Qwen2.5 on Ollama | https://ollama.com/library/qwen2.5 |
+| MediaWiki Revisions API (your benchmark's data source) | https://www.mediawiki.org/wiki/API:Revisions |
+| Dror et al., *Hitchhiker's Guide to Testing Statistical Significance in NLP* | https://aclanthology.org/P18-1128/ |
+
+### 11.5 Papers
+
+All 47 IDs below were confirmed against the arXiv API on 2026-09-06 (title and year match).
+
+**Read first — this is your contribution**
+
+| Paper | Year | Link |
+|---|---|---|
+| Know Your Limits: A Survey of Abstention in Large Language Models | 2024 | https://arxiv.org/abs/2407.18418 |
+| Measuring and Enhancing Trustworthiness of LLMs in RAG through Grou... | 2024 | https://arxiv.org/abs/2409.11242 |
+| R-Tuning: Instructing Large Language Models to Say `I Don't Know' | 2023 | https://arxiv.org/abs/2311.09677 |
+| Selective Classification for Deep Neural Networks | 2017 | https://arxiv.org/abs/1705.08500 |
+| AbstentionBench: Reasoning LLMs Fail on Unanswerable Questions | 2025 | https://arxiv.org/abs/2506.09038 |
+
+**Calibration and uncertainty**
+
+| Paper | Year | Link |
+|---|---|---|
+| On Calibration of Modern Neural Networks | 2017 | https://arxiv.org/abs/1706.04599 |
+| Teaching Models to Express Their Uncertainty in Words | 2022 | https://arxiv.org/abs/2205.14334 |
+| Just Ask for Calibration: Strategies for Eliciting Calibrated Confi... | 2023 | https://arxiv.org/abs/2305.14975 |
+| Semantic Entropy Probes: Robust and Cheap Hallucination Detection i... | 2024 | https://arxiv.org/abs/2406.15927 |
+| SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for G... | 2023 | https://arxiv.org/abs/2303.08896 |
+
+**Conformal prediction**
+
+| Paper | Year | Link |
+|---|---|---|
+| A Gentle Introduction to Conformal Prediction and Distribution-Free... | 2021 | https://arxiv.org/abs/2107.07511 |
+| Conformal Language Modeling | 2023 | https://arxiv.org/abs/2306.10193 |
+| Language Models with Conformal Factuality Guarantees | 2024 | https://arxiv.org/abs/2402.10978 |
+| Robots That Ask For Help: Uncertainty Alignment for Large Language ... | 2023 | https://arxiv.org/abs/2307.01928 |
+
+**Staleness and time — your novel axis**
+
+| Paper | Year | Link |
+|---|---|---|
+| FreshLLMs: Refreshing Large Language Models with Search Engine Augm... | 2023 | https://arxiv.org/abs/2310.03214 |
+| RealTime QA: What's the Answer Right Now? | 2022 | https://arxiv.org/abs/2207.13332 |
+| Evaluating Very Long-Term Conversational Memory of LLM Agents | 2024 | https://arxiv.org/abs/2402.17753 |
+| LongMemEval: Benchmarking Chat Assistants on Long-Term Interactive ... | 2024 | https://arxiv.org/abs/2410.10813 |
+
+**RAG and grounded QA**
+
+| Paper | Year | Link |
+|---|---|---|
+| Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks | 2020 | https://arxiv.org/abs/2005.11401 |
+| REALM: Retrieval-Augmented Language Model Pre-Training | 2020 | https://arxiv.org/abs/2002.08909 |
+| Self-RAG: Learning to Retrieve, Generate, and Critique through Self... | 2023 | https://arxiv.org/abs/2310.11511 |
+| Benchmarking Large Language Models in Retrieval-Augmented Generation | 2023 | https://arxiv.org/abs/2309.01431 |
+| CRAG -- Comprehensive RAG Benchmark | 2024 | https://arxiv.org/abs/2406.04744 |
+| Enabling Large Language Models to Generate Text with Citations | 2023 | https://arxiv.org/abs/2305.14627 |
+| Ragas: Automated Evaluation of Retrieval Augmented Generation | 2023 | https://arxiv.org/abs/2309.15217 |
+| Know What You Don't Know: Unanswerable Questions for SQuAD | 2018 | https://arxiv.org/abs/1806.03822 |
+
+**Retrieval and embeddings**
+
+| Paper | Year | Link |
+|---|---|---|
+| Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks | 2019 | https://arxiv.org/abs/1908.10084 |
+| C-Pack: Packed Resources For General Chinese Embeddings | 2023 | https://arxiv.org/abs/2309.07597 |
+| Matryoshka Representation Learning | 2022 | https://arxiv.org/abs/2205.13147 |
+| MemGPT: Towards LLMs as Operating Systems | 2023 | https://arxiv.org/abs/2310.08560 |
+
+**Fine-tuning and preference optimisation**
+
+| Paper | Year | Link |
+|---|---|---|
+| LoRA: Low-Rank Adaptation of Large Language Models | 2021 | https://arxiv.org/abs/2106.09685 |
+| QLoRA: Efficient Finetuning of Quantized LLMs | 2023 | https://arxiv.org/abs/2305.14314 |
+| Direct Preference Optimization: Your Language Model is Secretly a R... | 2023 | https://arxiv.org/abs/2305.18290 |
+| KTO: Model Alignment as Prospect Theoretic Optimization | 2024 | https://arxiv.org/abs/2402.01306 |
+| ORPO: Monolithic Preference Optimization without Reference Model | 2024 | https://arxiv.org/abs/2403.07691 |
+| SimPO: Simple Preference Optimization with a Reference-Free Reward | 2024 | https://arxiv.org/abs/2405.14734 |
+| Training language models to follow instructions with human feedback | 2022 | https://arxiv.org/abs/2203.02155 |
+| LIMA: Less Is More for Alignment | 2023 | https://arxiv.org/abs/2305.11206 |
+
+**Models and scaling**
+
+| Paper | Year | Link |
+|---|---|---|
+| Qwen2.5 Technical Report | 2024 | https://arxiv.org/abs/2412.15115 |
+| The Llama 3 Herd of Models | 2024 | https://arxiv.org/abs/2407.21783 |
+| Training Compute-Optimal Large Language Models | 2022 | https://arxiv.org/abs/2203.15556 |
+
+**Safety (secondary for this paper)**
+
+| Paper | Year | Link |
+|---|---|---|
+| Not what you've signed up for: Compromising Real-World LLM-Integrat... | 2023 | https://arxiv.org/abs/2302.12173 |
+| PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Ge... | 2024 | https://arxiv.org/abs/2402.07867 |
+| Defeating Prompt Injections by Design | 2025 | https://arxiv.org/abs/2503.18813 |
+| AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attac... | 2024 | https://arxiv.org/abs/2406.13352 |
+
+**Research hygiene**
+
+| Paper | Year | Link |
+|---|---|---|
+| Datasheets for Datasets | 2018 | https://arxiv.org/abs/1803.09010 |
+| Model Cards for Model Reporting | 2018 | https://arxiv.org/abs/1810.03993 |
 
 ---
 
