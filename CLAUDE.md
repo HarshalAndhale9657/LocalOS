@@ -14,7 +14,7 @@ project and an IEEE-level research paper unified by one thesis: **calibrated gro
 > The repo directory is `LocalOS` (historical codename). The product is **Groundwork**.
 > `secondbrain.md` and the root PDF are **inspiration only, not this project.**
 
-Read [`docs/README.md`](docs/README.md) first — the full plan lives in `docs/00`–`docs/07`.
+Read [`docs/README.md`](docs/README.md) first — the full plan lives in `docs/00`–`docs/08`.
 **`docs/07_REVISED_PLAN_2026-09.md` is the current plan** and overrides the timelines and scope
 in 01/03/06 wherever they disagree (one fine-tuning track, 16 weeks, January 2027 submission).
 

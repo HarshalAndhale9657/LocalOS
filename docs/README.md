@@ -15,7 +15,8 @@ This folder is the planning knowledge base for a final-year graduation project *
 2. **[01 — Product Plan](01_PRODUCT_PLAN.md)** — personas, jobs-to-be-done, feature spec (MoSCoW), UX flows, roadmap, metrics, risks, go-to-market.
 3. **[02 — Technical Architecture](02_TECHNICAL_ARCHITECTURE.md)** — MV3 sense+act layer, local RAG memory, model serving, safety architecture, feasibility & MV3 constraints.
 4. **[03 — Research Paper Plan](03_RESEARCH_PAPER_PLAN.md)** — RQs, contributions, methodology (both fine-tuning tracks), the released benchmark, experiment matrix, metrics, reproducibility, ethics, venue strategy, paper outline.
-5. **[04 — Related Work](04_RELATED_WORK.md)** — annotated bibliography by theme + the exact gap Groundwork fills.
+5. **[08 — Learning Roadmap](08_LEARNING_ROADMAP.md)** — what the owner needs to learn to *defend* this work: ordered topics, verified paper IDs, courses/blogs, a mock-viva question bank. Read alongside 07.
+6. **[04 — Related Work](04_RELATED_WORK.md)** — annotated bibliography by theme + the exact gap Groundwork fills.
 
 ---
 
